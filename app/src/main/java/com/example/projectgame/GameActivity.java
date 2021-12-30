@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.text.PrecomputedText;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -28,6 +29,9 @@ public class GameActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getSize(point);
 
         gameView = new GameView(this, point.x, point.y); // sending the screen size to GameView
+
+
+
 
         setContentView(gameView);
 

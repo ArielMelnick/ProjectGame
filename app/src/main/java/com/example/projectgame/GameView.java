@@ -20,8 +20,8 @@ public class GameView extends SurfaceView implements Runnable {
         super(context);
         this.screenX = screenX; // the screen width
         this.screenY = screenY; // the screen height
-        screenRatioX = 1920f / screenX;
-        screenRatioY = 1080f / screenY;
+        screenRatioX = screenX / 1920f;
+        screenRatioY = screenY / 1080f;
 
         background1 = new Background(screenX, screenY, getResources());
         background2 = new Background(screenX, screenY, getResources());
@@ -63,11 +63,13 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     public void update() {
-        background1.x -= (10 * screenRatioX);   // to move the image to the left 10 pixels
-        background2.x -= (10 * screenRatioX);
+        int step = (int) (10 * screenRatioX);
+        background1.x -= step;   // to move the image to the left some (the basic is 10, in my phone) pixels
+        background2.x -= step;
 
         if (background1.x + background1.background.getWidth() < 0)
-            background1.x = screenX;   // to bring the image to the right - outside of the screen
+            background1.x = screenX;
+        // to bring the image to the right - outside of the screen
         if (background2.x + background2.background.getWidth() < 0)
             background2.x = screenX;
     }
@@ -92,4 +94,6 @@ public class GameView extends SurfaceView implements Runnable {
         }
 
     }
+
+
 }
