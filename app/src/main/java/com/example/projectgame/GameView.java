@@ -20,22 +20,22 @@ public class GameView extends SurfaceView implements Runnable {
         super(context);
         this.screenX = screenX; // the screen width
         this.screenY = screenY; // the screen height
-        screenRatioX = screenX / 1920f;
-        screenRatioY = screenY / 1080f;
+        this.screenRatioX = screenX / 1920f;
+        this.screenRatioY = screenY / 1080f;
 
-        background1 = new Background(screenX, screenY, getResources());
-        background2 = new Background(screenX, screenY, getResources());
+        this.background1 = new Background(screenX, screenY, getResources());
+        this.background2 = new Background(screenX, screenY, getResources());
 
-        background2.x = screenX;   // on the start, the second background will wait out of the screen
+        this.background2.x = screenX;   // on the start, the second background will wait out of the screen
 
-        paint = new Paint();
+        this.paint = new Paint();
 
 
     }
 
     @Override
     public void run() {
-        while (isPlaying) {
+        while (this.isPlaying) {
 
             update();
             draw();
@@ -45,17 +45,17 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     public void resume() {
-        isPlaying = true;
-        thread = new Thread(this);
-        thread.start();   // calls - run()
+        this.isPlaying = true;
+        this.thread = new Thread(this);
+        this.thread.start();   // calls - run()
 
     }
 
     public void pause() {
-        isPlaying = false;
+        this.isPlaying = false;
 
         try {
-            thread.join();   // closing the thread
+            this.thread.join();   // closing the thread
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -63,22 +63,22 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     public void update() {
-        int step = (int) (10 * screenRatioX);
-        background1.x -= step;   // to move the image to the left some (the basic is 10, in my phone) pixels
-        background2.x -= step;
+        int step = (int) (10 * this.screenRatioX);
+        this.background1.x -= step;   // to move the image to the left some (the basic is 10, in my phone) pixels
+        this.background2.x -= step;
 
-        if (background1.x + background1.background.getWidth() < 0)
-            background1.x = screenX;
+        if (this.background1.x + this.background1.background.getWidth() < 0)
+            this.background1.x = this.screenX;
         // to bring the image to the right - outside of the screen
-        if (background2.x + background2.background.getWidth() < 0)
-            background2.x = screenX;
+        if (this.background2.x + this.background2.background.getWidth() < 0)
+            this.background2.x = this.screenX;
     }
 
     public void draw() {
         if (getHolder().getSurface().isValid()) {   // to make sure that the surface is available for use
             Canvas canvas = getHolder().lockCanvas();   // returns the current canvas that is being displayed on the screen
-            canvas.drawBitmap(background1.background, background1.x, background1.y, paint);   // the x and the y are the top left coordinates of the image
-            canvas.drawBitmap(background2.background, background2.x, background2.y, paint);
+            canvas.drawBitmap(this.background1.background, this.background1.x, this.background1.y, this.paint);   // the x and the y are the top left coordinates of the image
+            canvas.drawBitmap(this.background2.background, this.background2.x, this.background2.y, this.paint);
 
             getHolder().unlockCanvasAndPost(canvas);   // to show the canvas on the screen
 
