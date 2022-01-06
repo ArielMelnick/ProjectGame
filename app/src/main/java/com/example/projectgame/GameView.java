@@ -11,7 +11,7 @@ public class GameView extends SurfaceView implements Runnable {
     private Thread thread;
     private boolean isPlaying;
     private Background background1, background2;
-    private int screenX, screenY;
+    private final int screenX, screenY;
     private Paint paint;
     private float screenRatioX, screenRatioY;
 
@@ -64,19 +64,19 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void update() {
         int step = (int) (10 * this.screenRatioX);
-        this.background1.x -= step;   // to move the image to the left some (the basic is 10, in my phone) pixels
+        this.background1.x -= step;   // to move the image to the left some (the basic is 9, in my phone) pixels
         this.background2.x -= step;
 
-        if (this.background1.x + this.background1.background.getWidth() < 0)
+        if (this.background1.x + this.background1.background.getWidth() < 0) // if the size of the picture would be called "x" (this.background1.background.getWidth()) so if the left side -> x coordinate would be "-x" the picture would be exactly out of the screen, when it's below "-x" the picture would be brought to the right side of the screen -> out of the screen
             this.background1.x = this.screenX;
-        // to bring the image to the right - outside of the screen
+        // to bring the image to the right side of the screen -> outside of the screen
         if (this.background2.x + this.background2.background.getWidth() < 0)
             this.background2.x = this.screenX;
     }
 
     public void draw() {
         if (getHolder().getSurface().isValid()) {   // to make sure that the surface is available for use
-            Canvas canvas = getHolder().lockCanvas();   // returns the current canvas that is being displayed on the screen
+            Canvas canvas = getHolder().lockCanvas();   // returns the current canvas that is being displayed on the screen to work with
             canvas.drawBitmap(this.background1.background, this.background1.x, this.background1.y, this.paint);   // the x and the y are the top left coordinates of the image
             canvas.drawBitmap(this.background2.background, this.background2.x, this.background2.y, this.paint);
 
@@ -87,13 +87,11 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     public void sleep() {   // the image will change about 60 time per second (60 fps - 60 frames per second)
+
         try {
             Thread.sleep(17);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
-
-
 }
