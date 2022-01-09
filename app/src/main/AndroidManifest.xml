@@ -9,10 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectGame">
-        <activity android:name=".GameActivity"
-            android:screenOrientation="landscape"
-            />
 
+        <activity
+            android:name=".GameActivity"
+            android:screenOrientation="landscape" />
 
         <activity
             android:name=".MainActivity"
