@@ -78,16 +78,16 @@ public class GameView extends SurfaceView implements Runnable {
         if (this.background2.x + this.background2.background.getWidth() < 0)
             this.background2.x = this.screenX;
 
-        if(flight.isGoingUp)
-            flight.y -= (int) (20 * screenRatioY);  // to make the airplane go up
+        if(this.flight.isGoingUp)
+            this.flight.y -= (int) (20 * this.screenRatioY);  // to make the airplane go up
         else
-            flight.y += (int) (20 * screenRatioY);  // to make the airplane go down
+            this.flight.y += (int) (20 * this.screenRatioY);  // to make the airplane go down
 
-        if(flight.y < 0)
-            flight.y = 0;  // to stop the airplane from getting out of the screen
+        if(this.flight.y < 0)
+            this.flight.y = 0;  // to stop the airplane from getting out of the screen
 
-        if(flight.y > screenY - flight.height)
-            flight.y = screenY - flight.height;  // to stop the airplane from getting out of the screen
+        if(this.flight.y > this.screenY - this.flight.height)
+            this.flight.y = this.screenY - this.flight.height;  // to stop the airplane from getting out of the screen
 
 
 
@@ -101,7 +101,7 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(this.background1.background, this.background1.x, this.background1.y, this.paint);   // the x and the y are the top left coordinates of the image
             canvas.drawBitmap(this.background2.background, this.background2.x, this.background2.y, this.paint);
 
-            canvas.drawBitmap(flight.getFlight(), flight.x, flight.y, this.paint);
+            canvas.drawBitmap(this.flight.getFlight(), this.flight.x, this.flight.y, this.paint);
 
             getHolder().unlockCanvasAndPost(canvas);   // to show the canvas on the screen
 
@@ -125,12 +125,12 @@ public class GameView extends SurfaceView implements Runnable {
 
             case MotionEvent.ACTION_DOWN:  // ACTION_DOWN is since the user touched the screen until he release his finger from the screen
                 if(event.getX() < screenX/2)  // if the user touch the left side of the screen the airplane will go up
-                    flight.isGoingUp = true;
+                    this.flight.isGoingUp = true;
 
                 break;
 
             case MotionEvent.ACTION_UP:
-                flight.isGoingUp = false;
+                this.flight.isGoingUp = false;
                 break;
 
 

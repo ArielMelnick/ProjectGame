@@ -27,10 +27,10 @@ public class Flight {
         this.width = (int) (this.width * screenRatioX);  // to fit the image to other screens -> in different sizes (screenRatioX and screenRatioY are from GameView)
         this.height = (int) (this.height * screenRatioY);
 
-        this.flight1 = Bitmap.createScaledBitmap(flight1, width, height, false);
+        this.flight1 = Bitmap.createScaledBitmap(flight1, width, height, false); // setting the image size according to the changes i made according to the size of the screen
         this.flight2 = Bitmap.createScaledBitmap(flight2, width, height, false);
 
-        this.y = screenY / 2 -flight1.getHeight()/2;  // i want the airplane to be on the start vertically middle
+
         this.x = (int) (64 * screenRatioX);  // so the airplane will be about 64 pixels from the left of the screen
 
 
@@ -38,7 +38,7 @@ public class Flight {
 
     public Bitmap getFlight() {   // to switch between the two images
 
-        if(this.wingCounter == 0){
+        if (this.wingCounter == 0) {
             wingCounter++;
             return flight1;
         }

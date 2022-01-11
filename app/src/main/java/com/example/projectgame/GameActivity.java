@@ -23,28 +23,26 @@ public class GameActivity extends AppCompatActivity {
 
         Point point = new Point();
 
-        /* Display display = this.getDisplay();
-        display.getRealSize(point);*/
 
         getWindowManager().getDefaultDisplay().getSize(point);
 
-        gameView = new GameView(this, point.x, point.y); // sending the screen size to GameView
+        this.gameView = new GameView(this, point.x, point.y); // sending the screen size to GameView
 
 
 
 
-        setContentView(gameView);
+        setContentView(this.gameView);
 
     }
 
     protected void onPause(){   // if another activity comes into the foreground onPause is called
         super.onPause();
-        gameView.pause();
+        this.gameView.pause();
     }
 
     @Override
     protected void onResume() {   // if it comes back from another activity to this activity then onResume will be called
         super.onResume();
-        gameView.resume();
+        this.gameView.resume();
     }
 }
