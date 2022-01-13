@@ -9,7 +9,8 @@ import android.graphics.BitmapFactory;
 
 public class Flight {
     boolean isGoingUp = false;
-    int x, y, width, height, wingCounter = 0;  // x and y are the coordinates (position on the screen) of the airplane
+    float x, y;  // x and y are the coordinates (position on the screen) of the airplane
+    int width, height, wingCounter = 0;
     Bitmap flight1, flight2;
 
     Flight(int screenY, Resources res) {  // it will get the height of the screen (screenY) and the data of the image of the airplane from the resources (res)

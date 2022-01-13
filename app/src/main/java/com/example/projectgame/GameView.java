@@ -31,7 +31,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         this.flight = new Flight(screenY, getResources());
 
-        this.background2.x = screenX;   // on the start, the second background will wait out of the screen
+        this.background2.x = screenX-1;   // on the start, the second background will wait out of the screen
 
         this.paint = new Paint();
 
@@ -99,9 +99,10 @@ public class GameView extends SurfaceView implements Runnable {
         if (getHolder().getSurface().isValid()) {   // to make sure that the surface is available for use
             Canvas canvas = getHolder().lockCanvas();   // returns the current canvas that is being displayed on the screen to work with
             canvas.drawBitmap(this.background1.background, this.background1.x, this.background1.y, this.paint);   // the x and the y are the top left coordinates of the image
-            canvas.drawBitmap(this.background2.background, this.background2.x, this.background2.y, this.paint);
-
+            canvas.drawBitmap(this.background2.background,this.background2.x, this.background2.y, this.paint);
             canvas.drawBitmap(this.flight.getFlight(), this.flight.x, this.flight.y, this.paint);
+
+
 
             getHolder().unlockCanvasAndPost(canvas);   // to show the canvas on the screen
 
@@ -121,7 +122,7 @@ public class GameView extends SurfaceView implements Runnable {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        switch(event.getAction()){
+        switch(event.getAction()){  // to check what happened, in this case to check whether the user is clicking on the screen (MotionEvent.ACTION_DOWN) or he released his finger from the screen (MotionEvent.ACTION_UP) so i will be able to act accordingly
 
             case MotionEvent.ACTION_DOWN:  // ACTION_DOWN is since the user touched the screen until he release his finger from the screen
                 if(event.getX() < screenX/2)  // if the user touch the left side of the screen the airplane will go up
