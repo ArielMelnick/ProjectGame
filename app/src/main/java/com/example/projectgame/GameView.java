@@ -73,10 +73,10 @@ public class GameView extends SurfaceView implements Runnable {
         this.background2.x -= step;
 
         if (this.background1.x + this.background1.background.getWidth() < 0)  // if the size of the picture would be called "x" (this.background1.background.getWidth()) so if the left side -> x coordinate would be "-x" the picture would be exactly out of the screen, when it's below "-x" the picture would be brought to the right side of the screen -> out of the screen
-            this.background1.x = this.screenX;
+            this.background1.x = this.background2.x + this.background2.background.getWidth();
         // to bring the image to the right side of the screen -> outside of the screen
         if (this.background2.x + this.background2.background.getWidth() < 0)
-            this.background2.x = this.screenX;
+            this.background2.x = this.background1.x + this.background1.background.getWidth();
 
         if(this.flight.isGoingUp)
             this.flight.y -= (int) (20 * this.screenRatioY);  // to make the airplane go up
