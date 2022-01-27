@@ -96,9 +96,9 @@ public class GameView extends SurfaceView implements Runnable {
 
         List<Bullet> trash = new ArrayList<>();
 
-        for (Bullet bullet : bullets) {
-            if (bullet.x > screenX)
-                trash.add(bullet);
+        for (Bullet bullet : bullets) {   // I'm using list because there could be many bullets on the screen at once
+            if (bullet.x > screenX)  // to check whether the bullet is out of the screen or not
+                trash.add(bullet);   // to delete the bullets from the list afterwards
             bullet.x += 50 * screenRatioX;  // to make the bullet move on the screen
         }
 
@@ -116,7 +116,7 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(this.background2.background, this.background2.x, this.background2.y, this.paint);
             canvas.drawBitmap(this.flight.getFlight(), this.flight.x, this.flight.y, this.paint);
 
-            for(Bullet bullet : bullets){
+            for(Bullet bullet : bullets){  // to draw many bullets at once
                 canvas.drawBitmap(bullet.bullet, bullet.x, bullet.y, paint);
             }
 
@@ -149,8 +149,8 @@ public class GameView extends SurfaceView implements Runnable {
 
             case MotionEvent.ACTION_UP:
                 this.flight.isGoingUp = false;
-                if (event.getX() > screenX / 2)
-                    this.flight.toShoot++;
+                if (event.getX() > screenX / 2)  // if the user touches the right side of the screen the airplane would shoot
+                    this.flight.toShoot++;  // "toShoot" used to check whether "getFlight" from "Flight" should return an image from one block of code or the other
                 break;
 
 

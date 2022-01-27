@@ -52,8 +52,11 @@ public class Flight {
 
     }
 
-    public Bitmap getFlight() {   // to switch between the two images.
+    public Bitmap getFlight() {
 
+        // to switch between the images
+        // if the user touched the right side of the screen then getFlight will return an image(one of the stages of the airplane shooting) from this block of code(ends in "return shoot5")
+        // and if not, it will return an image( one of the stages of the regular airplane) from the next block of code (starts in " if (this.wingCounter == 0)")
         if (toShoot != 0) {
             if (shootCounter == 1) {
                 shootCounter++;
