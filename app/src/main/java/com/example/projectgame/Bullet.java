@@ -17,8 +17,8 @@ public class Bullet {
         width = width / 4;
         height = height / 4;
 
-        width *= (int) GameView.screenRatioX;
-        height *= (int) GameView.screenRatioY;
+        width *=  GameView.screenRatioX;
+        height *=  GameView.screenRatioY;
 
         this.bullet = Bitmap.createScaledBitmap(bullet, width, height, false);  // reforming the image according to the changes i made.
 
