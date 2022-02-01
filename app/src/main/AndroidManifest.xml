@@ -13,7 +13,8 @@
 
         <activity
             android:name=".GameActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.GameActivity"/>
 
         <activity
             android:name=".MainActivity"
