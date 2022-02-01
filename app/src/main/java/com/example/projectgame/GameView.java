@@ -98,11 +98,11 @@ public class GameView extends SurfaceView implements Runnable {
 
         for (Bullet bullet : bullets) {   // I'm using list because there could be many bullets on the screen at once
             if (bullet.x > screenX)  // to check whether the bullet is out of the screen or not
-                trash.add(bullet);   // to delete the bullets from the list afterwards
+                trash.add(bullet);   // to delete the bullets that came out of the screen from the list - afterwards - so I won't do the line bellow on a null
             bullet.x += 50 * screenRatioX;  // to make the bullet move on the screen
         }
 
-        for (Bullet bullet : trash) {
+        for (Bullet bullet : trash) {  // deleting the bullets that came out of the screen
             bullets.remove(bullet);
         }
 
