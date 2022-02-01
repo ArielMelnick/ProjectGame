@@ -6,6 +6,7 @@
         android:id="@+id/Settings"
         android:title="Settings"
         android:orderInCategory="1"
+
         />
 
     <item
