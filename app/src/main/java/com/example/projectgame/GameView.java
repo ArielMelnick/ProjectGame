@@ -150,7 +150,7 @@ public class GameView extends SurfaceView implements Runnable {
                 this.flight.isGoingUp = false;  // used in "update()"
                 if (event.getX() > screenX / 2) {  // if the user touches the right side of the screen the airplane would shoot
                     this.flight.toShoot++;  // "toShoot" used to check whether "getFlight" from "Flight" should return an image from one block of code or from the other
-                    //  newBullet(), I figured that it's an option to call "newBullet()" in here instead of in "getFlight()", (I can't see any difference for right now)
+                    //  if i will call "newBullet()" here then the bullet would show up together with the first image of the airplane shooting and if it is there it would show up on the screen only after the 5 images of the airplane shooting would be presented on the screen already
                 }
                 break;
 
