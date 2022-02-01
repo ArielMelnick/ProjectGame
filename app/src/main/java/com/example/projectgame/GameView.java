@@ -102,7 +102,7 @@ public class GameView extends SurfaceView implements Runnable {
             bullet.x += 50 * screenRatioX;  // to make the bullet move on the screen
         }
 
-        for(Bullet bullet : trash){
+        for (Bullet bullet : trash) {
             bullets.remove(bullet);
         }
 
@@ -116,7 +116,7 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(this.background2.background, this.background2.x, this.background2.y, this.paint);
             canvas.drawBitmap(this.flight.getFlight(), this.flight.x, this.flight.y, this.paint);
 
-            for(Bullet bullet : bullets){  // to draw many bullets at once
+            for (Bullet bullet : bullets) {  // to draw many bullets at once
                 canvas.drawBitmap(bullet.bullet, bullet.x, bullet.y, paint);
             }
 
@@ -143,14 +143,15 @@ public class GameView extends SurfaceView implements Runnable {
 
             case MotionEvent.ACTION_DOWN:  // ACTION_DOWN is since the user touched the screen until he release his finger from the screen
                 if (event.getX() < screenX / 2)  // if the user touches the left side of the screen the airplane would go up
-                    this.flight.isGoingUp = true;
-
+                    this.flight.isGoingUp = true;  // used in "update()"
                 break;
 
             case MotionEvent.ACTION_UP:
-                this.flight.isGoingUp = false;
-                if (event.getX() > screenX / 2)  // if the user touches the right side of the screen the airplane would shoot
-                    this.flight.toShoot++;  // "toShoot" used to check whether "getFlight" from "Flight" should return an image from one block of code or the other
+                this.flight.isGoingUp = false;  // used in "update()"
+                if (event.getX() > screenX / 2) {  // if the user touches the right side of the screen the airplane would shoot
+                    this.flight.toShoot++;  // "toShoot" used to check whether "getFlight" from "Flight" should return an image from one block of code or from the other
+                    //  newBullet(), I figured that it's an option to call "newBullet()" in here instead of in "getFlight()", (I can't see any difference for right now)
+                }
                 break;
 
 
@@ -159,7 +160,7 @@ public class GameView extends SurfaceView implements Runnable {
         return true;
     }
 
-    public void newBullet() {
+    public void newBullet() {  // gets called in "getFlight()" in "Flight" class
 
         Bullet bullet = new Bullet(getResources());
         bullet.x = flight.x + flight.width;  // initially, the bullet will be next to the airplane

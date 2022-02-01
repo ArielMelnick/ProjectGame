@@ -52,11 +52,11 @@ public class Flight {
 
     }
 
-    public Bitmap getFlight() {
+    public Bitmap getFlight() {  // gets called in "draw()" in GameView to draw the relevant image.
 
-        // to switch between the images
-        // if the user touched the right side of the screen then getFlight will return an image(one of the stages of the airplane shooting) from this block of code(ends in "return shoot5")
-        // and if not, it will return an image( one of the stages of the regular airplane) from the next block of code (starts in " if (this.wingCounter == 0)")
+        // to switch between the images.
+        // if the user touches the right side of the screen then getFlight will return an image(one of the stages of the airplane shooting) from this block of code(ends in "return shoot5")
+        // and if not, it will return an image( one of the stages of the regular airplane) from the next block of code (starts in " if (this.wingCounter == 0)").
         if (toShoot != 0) {
             if (shootCounter == 1) {
                 shootCounter++;
@@ -79,12 +79,9 @@ public class Flight {
             toShoot--;
             gameView.newBullet();
             return shoot5;
-
-
         }
 
-
-        if (this.wingCounter == 0) {   // I will send one image to GameActivity and in the next time getFlight will be called, i will send the other image.
+        if (this.wingCounter == 0) {
             wingCounter++;
             return flight1;
         }
