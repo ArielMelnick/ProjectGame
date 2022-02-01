@@ -8,6 +8,8 @@ public class Bullet {
     float x, y;
     Bitmap bullet;
 
+    // it seems to me for right now, that "newBullet()" from GameView can be here instead
+
     Bullet(Resources res) {
         this.bullet = BitmapFactory.decodeResource(res, R.drawable.bullet);
 
