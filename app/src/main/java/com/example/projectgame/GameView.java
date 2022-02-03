@@ -3,23 +3,27 @@ package com.example.projectgame;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class GameView extends SurfaceView implements Runnable {
 
     private Thread thread;
-    private boolean isPlaying;
+    private boolean isPlaying, isGameOver = false;
     private Background background1, background2;
     private final int screenX, screenY;
     private Paint paint;
     private Flight flight;
     public static float screenRatioX, screenRatioY;  // they are public and static so i will be able to use them in different classes
     private List<Bullet> bullets;
+    private Bird[] birds;
+    private Random random;
 
 
     public GameView(Context context, int screenX, int screenY) {
@@ -39,6 +43,15 @@ public class GameView extends SurfaceView implements Runnable {
         this.paint = new Paint();
 
         bullets = new ArrayList<>();
+
+        birds = new Bird[4];
+
+        for (int i = 0; i < 4; i++) {
+            Bird bird = new Bird(getResources());
+            birds[i] = bird;
+        }
+
+        random = new Random();
 
 
     }
@@ -100,10 +113,54 @@ public class GameView extends SurfaceView implements Runnable {
             if (bullet.x > screenX)  // to check whether the bullet is out of the screen or not
                 trash.add(bullet);   // to delete the bullets that came out of the screen from the list - afterwards - so I won't do the line bellow on a null
             bullet.x += 50 * screenRatioX;  // to make the bullet move on the screen
+
+            for(Bird bird: birds){  // to check if a bullet hit a bird
+
+                if(Rect.intersects(bird.getCollisionShape(), bullet.getCollisionShape())){
+                    bird.x = -500;  // so the bird will go out of the screen, to the left
+                    bullet.x = screenX + 500;  // so the bullet will be out of the screen
+                    bird.wasShot = true;
+                }
+
+
+            }
         }
 
         for (Bullet bullet : trash) {  // deleting the bullets that came out of the screen
             bullets.remove(bullet);
+        }
+
+        for (Bird bird : birds) {
+            bird.x -= bird.speed;  //  so the bird will go towards the airplane -> to the left
+
+
+            if ((bird.x + bird.width) < 0) {  // if this statement is true -> the bird got out of the screen from the left side
+                if(!(bird.wasShot)){  // if the bird got out of the screen without getting shoot at so the player had failed and the game will be over
+                    isGameOver = true;
+                    return;
+
+                }
+                int bound = (int) (30 * screenRatioX);
+                bird.speed = random.nextInt(bound);   // so the maximum speed will be (30 * screenRatioX)
+                //bird.speed = (int) (Math.random() * (20 * screenRatioX) + 10 * screenRatioX);
+
+                if (bird.speed < (10 * screenRatioX)) {
+                    bird.speed = (int) (10 * screenRatioX);  // so the minimum speed will be (10 * screenRatioX)
+                }
+
+                bird.x = screenX;  // so it will be on the right side of the screen
+                bird.y = random.nextInt(screenY - bird.height);  // so the maximum height will be (screenY - bird.height)
+
+                bird.wasShot = false;
+            }
+
+            if(Rect.intersects(bird.getCollisionShape(), flight.getCollisionShape())){  // to check if the bird hit the airplane to end the game
+                isGameOver = true;
+                return;
+
+            }
+
+
         }
 
 
@@ -114,6 +171,18 @@ public class GameView extends SurfaceView implements Runnable {
             Canvas canvas = getHolder().lockCanvas();   // returns the current canvas that is being displayed on the screen to work with
             canvas.drawBitmap(this.background1.background, this.background1.x, this.background1.y, this.paint);   // the x and the y are the top left coordinates of the image
             canvas.drawBitmap(this.background2.background, this.background2.x, this.background2.y, this.paint);
+
+            if(isGameOver){
+                isPlaying = false; // it will stop the thread
+                canvas.drawBitmap(flight.dead, flight.x, flight.y, paint);  // so it will draw the image of the destroyed airplane
+                getHolder().unlockCanvasAndPost(canvas);
+                return;
+            }
+
+            for(Bird bird: birds){
+                canvas.drawBitmap(bird.getBird(), bird.x, bird.y, paint);
+            }
+
             canvas.drawBitmap(this.flight.getFlight(), this.flight.x, this.flight.y, this.paint);
 
             for (Bullet bullet : bullets) {  // to draw many bullets at once

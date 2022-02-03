@@ -6,13 +6,14 @@ import static com.example.projectgame.GameView.screenRatioY;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 
 public class Flight {
     int toShoot = 0, shootCounter = 1;
     boolean isGoingUp = false;
-    float x, y;  // x and y are the coordinates (position on the screen) of the airplane.
+    int x, y;  // x and y are the coordinates (position on the screen) of the airplane.
     int width, height, wingCounter = 0;
-    Bitmap flight1, flight2, shoot1, shoot2, shoot3, shoot4, shoot5;
+    Bitmap flight1, flight2, shoot1, shoot2, shoot3, shoot4, shoot5, dead;
     private GameView gameView;
 
     Flight(GameView gameView ,int screenY, Resources res) {  // it will get the height of the screen (screenY) and the data of the image of the airplane from the resources (res).
@@ -26,6 +27,8 @@ public class Flight {
         this.shoot3 = BitmapFactory.decodeResource(res, R.drawable.shoot3);
         this.shoot4 = BitmapFactory.decodeResource(res, R.drawable.shoot4);
         this.shoot5 = BitmapFactory.decodeResource(res, R.drawable.shoot5);
+
+        this.dead = BitmapFactory.decodeResource(res, R.drawable.dead);
 
 
         this.width = flight1.getWidth();  // to get the width of the image of the airplane.
@@ -45,6 +48,11 @@ public class Flight {
         this.shoot3 = Bitmap.createScaledBitmap(shoot3, width, height, false);
         this.shoot4 = Bitmap.createScaledBitmap(shoot4, width, height, false);
         this.shoot5 = Bitmap.createScaledBitmap(shoot5, width, height, false);
+
+        this.dead = Bitmap.createScaledBitmap(dead, width, height, false);
+
+
+
 
 
         this.x = (int) (64 * screenRatioX);  // so the airplane will be about 64 pixels from the left of the screen.
@@ -87,7 +95,10 @@ public class Flight {
         }
         wingCounter--;
         return flight2;
-
-
     }
+
+    public Rect getCollisionShape() {  // it will create a rectangle around the airplane and it will return this rectangle so I will be able to check if there is a collision between the airplane and a bird with "Rect.intersect()"
+        return new Rect(x, y, x + width, y + height);
+    }
+
 }

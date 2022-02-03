@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
         findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -42,15 +41,15 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-        return  true;
+        return true;
 
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.Contact){
-            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+"0546306568"));
+        if (id == R.id.Contact) {
+            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "0546306568"));
             startActivity(intent);
         }
         return true;

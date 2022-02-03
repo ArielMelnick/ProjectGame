@@ -3,18 +3,20 @@ package com.example.projectgame;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 
 public class Bullet {
-    float x, y;
+    int x, y;
     Bitmap bullet;
+    int width, height;
 
     // it seems to me for right now, that "newBullet()" from GameView can be here instead
 
     Bullet(Resources res) {
         this.bullet = BitmapFactory.decodeResource(res, R.drawable.bullet);
 
-        int width = bullet.getWidth();
-        int height = bullet.getHeight();
+        width = bullet.getWidth();
+        height = bullet.getHeight();
 
         width = width / 4;
         height = height / 4;
@@ -25,6 +27,9 @@ public class Bullet {
         this.bullet = Bitmap.createScaledBitmap(bullet, width, height, false);  // reforming the image according to the changes i made.
 
 
+    }
+    public Rect getCollisionShape() {  // it will create a rectangle around the airplane and it will return this rectangle so I will be able to check if there is a collision between the airplane and a bird with "Rect.intersect()"
+        return new Rect(x, y, x + width, y + height);
     }
 
 
