@@ -1,6 +1,7 @@
 package com.example.projectgame;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -20,16 +21,22 @@ public class GameView extends SurfaceView implements Runnable {
     private boolean isPlaying, isGameOver = false;
     private Background background1, background2;
     private final int screenX, screenY;
+    private int score;
     private Paint paint;
     private Flight flight;
     public static float screenRatioX, screenRatioY;  // they are public and static so i will be able to use them in different classes
     private List<Bullet> bullets;
     private Bird[] birds;
     private Random random;
+    private SharedPreferences sp
 
 
     public GameView(Context context, int screenX, int screenY) {
         super(context);
+
+        sp = context.getSharedPreferences("game", Context.MODE_PRIVATE);
+
+
         this.screenX = screenX;  // the screen width
         this.screenY = screenY;  // the screen height
         this.screenRatioX = screenX / 2148f;
@@ -43,6 +50,8 @@ public class GameView extends SurfaceView implements Runnable {
         this.background2.x = screenX - 1;  // on the start, the second background will wait out of the screen
 
         this.paint = new Paint();
+        this.paint.setTextSize(130);
+        this.paint.setColor(Color.WHITE);
 
         bullets = new ArrayList<>();
 
@@ -116,9 +125,10 @@ public class GameView extends SurfaceView implements Runnable {
                 trash.add(bullet);   // to delete the bullets that came out of the screen from the list - afterwards - so I won't do the line bellow on a null
             bullet.x += 50 * screenRatioX;  // to make the bullet move on the screen
 
-            for(Bird bird: birds){  // to check if a bullet hit a bird
+            for(Bird bird: birds){
 
-                if(Rect.intersects(bird.getCollisionShape(), bullet.getCollisionShape())){
+                if(Rect.intersects(bird.getCollisionShape(), bullet.getCollisionShape())){  // to check if a bullet hit a bird
+                    score++;
                     bird.x = -500;  // so the bird will go out of the screen, to the left
                     bullet.x = screenX + 500;  // so the bullet will be out of the screen
                     bird.wasShot = true;
@@ -169,20 +179,23 @@ public class GameView extends SurfaceView implements Runnable {
         if (getHolder().getSurface().isValid()) {   // to make sure that the surface is available for use
             Canvas canvas = getHolder().lockCanvas();   // returns the current canvas that is being displayed on the screen to work with
 
-
             canvas.drawBitmap(this.background1.background, this.background1.x, this.background1.y, this.paint);   // the x and the y are the top left coordinates of the image
             canvas.drawBitmap(this.background2.background, this.background2.x, this.background2.y, this.paint);
+
+            canvas.drawText(score+"",screenX/2f,160 * screenRatioY, paint);  // draw the score of the player
 
             if(isGameOver){
                 isPlaying = false; // it will stop the thread
                 canvas.drawBitmap(flight.dead, flight.x, flight.y, paint);  // so it will draw the image of the destroyed airplane
+                saveIfHighScore();
                 getHolder().unlockCanvasAndPost(canvas);
                 return;
             }
-
             for(Bird bird: birds){
                 canvas.drawBitmap(bird.getBird(), bird.x, bird.y, paint);
             }
+
+
 
             canvas.drawBitmap(this.flight.getFlight(), this.flight.x, this.flight.y, this.paint);
 
@@ -199,6 +212,8 @@ public class GameView extends SurfaceView implements Runnable {
 
 
     }
+
+
 
     public void sleep() {   // the image will change about 60 time per second (60 fps - 60 frames per second)
 
@@ -239,6 +254,16 @@ public class GameView extends SurfaceView implements Runnable {
         bullet.x = flight.x + flight.width;  // initially, the bullet will be next to the airplane
         bullet.y = flight.y + (flight.height / 2);  // initially, it will be next to the guns on the wings of the airplane
         bullets.add(bullet);
+
+    }
+
+    public void saveIfHighScore() {
+
+        if(sp.getInt("highScore", 0) < score){
+            SharedPreferences.Editor edit = sp.edit();
+
+        }
+
 
     }
 }
