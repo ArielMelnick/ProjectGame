@@ -16,7 +16,7 @@ public class Flight {
     Bitmap flight1, flight2, shoot1, shoot2, shoot3, shoot4, shoot5, dead;
     private GameView gameView;
 
-    Flight(GameView gameView ,int screenY, Resources res) {  // it will get the height of the screen (screenY) and the data of the image of the airplane from the resources (res).
+    Flight(GameView gameView, Resources res) {  // it will get the height of the screen (screenY) and the data of the image of the airplane from the resources (res).
         this.gameView = gameView;
 
         this.flight1 = BitmapFactory.decodeResource(res, R.drawable.fly1);

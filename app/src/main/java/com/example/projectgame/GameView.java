@@ -2,7 +2,9 @@ package com.example.projectgame;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
@@ -30,13 +32,13 @@ public class GameView extends SurfaceView implements Runnable {
         super(context);
         this.screenX = screenX;  // the screen width
         this.screenY = screenY;  // the screen height
-        this.screenRatioX = screenX / 1920f;
+        this.screenRatioX = screenX / 2148f;
         this.screenRatioY = screenY / 1080f;
 
         this.background1 = new Background(screenX, screenY, getResources());
         this.background2 = new Background(screenX, screenY, getResources());
 
-        this.flight = new Flight(this, screenY, getResources());
+        this.flight = new Flight(this, getResources());
 
         this.background2.x = screenX - 1;  // on the start, the second background will wait out of the screen
 
@@ -91,10 +93,10 @@ public class GameView extends SurfaceView implements Runnable {
         this.background2.x -= step;
 
         if (this.background1.x + this.background1.background.getWidth() < 0)  // if the size of the picture would be called "x" (this.background1.background.getWidth()) so if the left side -> x coordinate would be "-x" the picture would be exactly out of the screen, when it's below "-x" the picture would be brought to the right side of the screen -> out of the screen
-            this.background1.x = this.background2.x + this.background2.background.getWidth();
+            this.background1.x = this.background2.x + this.background2.background.getWidth()-4;
         // to bring the image to the right side of the screen -> outside of the screen
         if (this.background2.x + this.background2.background.getWidth() < 0)
-            this.background2.x = this.background1.x + this.background1.background.getWidth();
+            this.background2.x = this.background1.x + this.background1.background.getWidth()-4;
 
         if (this.flight.isGoingUp)
             this.flight.y -= (int) (20 * this.screenRatioY);  // to make the airplane go up
@@ -140,13 +142,10 @@ public class GameView extends SurfaceView implements Runnable {
                     return;
 
                 }
-                int bound = (int) (30 * screenRatioX);
-                bird.speed = random.nextInt(bound);   // so the maximum speed will be (30 * screenRatioX)
-                //bird.speed = (int) (Math.random() * (20 * screenRatioX) + 10 * screenRatioX);
 
-                if (bird.speed < (10 * screenRatioX)) {
-                    bird.speed = (int) (10 * screenRatioX);  // so the minimum speed will be (10 * screenRatioX)
-                }
+                bird.speed = (int) (Math.random() * (20 * screenRatioX) + 10 * screenRatioX);
+
+
 
                 bird.x = screenX;  // so it will be on the right side of the screen
                 bird.y = random.nextInt(screenY - bird.height);  // so the maximum height will be (screenY - bird.height)
@@ -169,6 +168,8 @@ public class GameView extends SurfaceView implements Runnable {
     public void draw() {
         if (getHolder().getSurface().isValid()) {   // to make sure that the surface is available for use
             Canvas canvas = getHolder().lockCanvas();   // returns the current canvas that is being displayed on the screen to work with
+
+
             canvas.drawBitmap(this.background1.background, this.background1.x, this.background1.y, this.paint);   // the x and the y are the top left coordinates of the image
             canvas.drawBitmap(this.background2.background, this.background2.x, this.background2.y, this.paint);
 
@@ -190,9 +191,12 @@ public class GameView extends SurfaceView implements Runnable {
             }
 
 
+
+
             getHolder().unlockCanvasAndPost(canvas);   // to show the canvas on the screen
 
         }
+
 
     }
 
