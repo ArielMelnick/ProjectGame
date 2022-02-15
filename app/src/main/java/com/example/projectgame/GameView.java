@@ -1,12 +1,14 @@
 package com.example.projectgame;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
@@ -28,13 +30,21 @@ public class GameView extends SurfaceView implements Runnable {
     private List<Bullet> bullets;
     private Bird[] birds;
     private Random random;
-    private SharedPreferences sp
+    private SharedPreferences sp;  // I'm using "SharedPreferences" to store the highest score
+    private GameActivity activity;
+    private MediaPlayer mp;
 
 
-    public GameView(Context context, int screenX, int screenY) {
-        super(context);
+    public GameView(GameActivity activity, int screenX, int screenY) {
+        super(activity);
 
-        sp = context.getSharedPreferences("game", Context.MODE_PRIVATE);
+        this.activity = activity;
+
+        sp = activity.getSharedPreferences("game", Context.MODE_PRIVATE);  // connecting to the xml file named "game" in SharedPreferences that i created in "MainActivity".
+
+        mp = MediaPlayer.create(activity, R.raw.shoot);
+
+
 
 
         this.screenX = screenX;  // the screen width
@@ -50,7 +60,7 @@ public class GameView extends SurfaceView implements Runnable {
         this.background2.x = screenX - 1;  // on the start, the second background will wait out of the screen
 
         this.paint = new Paint();
-        this.paint.setTextSize(130);
+        this.paint.setTextSize(130);  //  I'm using "paint" to show the score
         this.paint.setColor(Color.WHITE);
 
         bullets = new ArrayList<>();
@@ -185,10 +195,13 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawText(score+"",screenX/2f,160 * screenRatioY, paint);  // draw the score of the player
 
             if(isGameOver){
-                isPlaying = false; // it will stop the thread
+                isPlaying = false; // it will stop the game
+                mp.stop();
                 canvas.drawBitmap(flight.dead, flight.x, flight.y, paint);  // so it will draw the image of the destroyed airplane
-                saveIfHighScore();
+                saveIfHighScore();  // to store the high score
                 getHolder().unlockCanvasAndPost(canvas);
+                waitBeforeExiting();
+
                 return;
             }
             for(Bird bird: birds){
@@ -212,6 +225,7 @@ public class GameView extends SurfaceView implements Runnable {
 
 
     }
+
 
 
 
@@ -250,20 +264,38 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void newBullet() {  // gets called in "getFlight()" in "Flight" class
 
+        if(!sp.getBoolean("isMute", false))  // if the player chose to not mute the game then i will play the bullet sound
+            mp.start();
+
         Bullet bullet = new Bullet(getResources());
-        bullet.x = flight.x + flight.width;  // initially, the bullet will be next to the airplane
-        bullet.y = flight.y + (flight.height / 2);  // initially, it will be next to the guns on the wings of the airplane
+        bullet.x = flight.x + flight.width;  // Initially, the bullet will be next to the airplane
+        bullet.y = flight.y + (flight.height / 2);  // Initially, it will be next to the guns on the wings of the airplane
         bullets.add(bullet);
 
     }
 
     public void saveIfHighScore() {
 
+
+
         if(sp.getInt("highScore", 0) < score){
             SharedPreferences.Editor edit = sp.edit();
+            edit.putInt("highScore", score);  // creating/changing an int variant named "highScore" inside "game.xml" that inside "shared_prefs" directory
+            edit.apply();  // To create/change the high score
+
 
         }
+    }
 
+    public void waitBeforeExiting() {
+
+        try {
+            Thread.sleep(1000);
+            activity.finish();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
+
 }

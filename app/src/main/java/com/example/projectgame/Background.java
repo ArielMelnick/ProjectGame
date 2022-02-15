@@ -15,7 +15,7 @@ public class Background {
      public Background (int screenX, int screenY, Resources res) {  // res contains the image data
 
          this.background = BitmapFactory.decodeResource(res, R.drawable.background);  // bitmapFactory creates bitmaps
-         this.background = Bitmap.createScaledBitmap(background, screenX+2 , screenY, false);  // to fit the image to the screen
+         this.background = Bitmap.createScaledBitmap(background, screenX+2, screenY, false);  // to fit the image to the screen
 
      }
 }

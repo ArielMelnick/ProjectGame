@@ -11,7 +11,7 @@ public class Bird {
     boolean wasShot = true;
 
     Bird(Resources res) {
-        bird1 = BitmapFactory.decodeResource(res, R.drawable.bird1);
+        bird1 = BitmapFactory.decodeResource(res, R.drawable.bird1);  // the bird stages/phases so it will seem like it moves its wings and fly
         bird2 = BitmapFactory.decodeResource(res, R.drawable.bird2);
         bird3 = BitmapFactory.decodeResource(res, R.drawable.bird3);
         bird4 = BitmapFactory.decodeResource(res, R.drawable.bird4);
@@ -57,7 +57,5 @@ public class Bird {
 
     public Rect getCollisionShape() {  // it will create a rectangle around the bird and it will return this rectangle so will be able to check if there is a collision between the bird and something else like the airplane and a bullet with "Rect.intersect()"
         return new Rect(x, y, x + width, y + height);  // the "x" is the left side of the bird, the "y" is the top, "x + width" is the right side and "y + height" is the bottom coordinate
-
-
     }
 }
