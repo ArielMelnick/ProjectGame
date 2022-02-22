@@ -190,6 +190,8 @@ public class GameView extends SurfaceView implements Runnable {
                 mp.stop();
                 canvas.drawBitmap(flight.dead, flight.x, flight.y, paint);  // so it will draw the image of the destroyed airplane
                 saveIfHighScore();  // to store the high score
+                paint.setColor(Color.RED);
+                canvas.drawText("Game Over", (screenX / 2f) -260, screenY / 2f, paint);
                 getHolder().unlockCanvasAndPost(canvas);
                 waitBeforeExiting();
 
@@ -268,7 +270,7 @@ public class GameView extends SurfaceView implements Runnable {
     public void waitBeforeExiting() {
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(3000);
             activity.finish();
         } catch (InterruptedException e) {
             e.printStackTrace();

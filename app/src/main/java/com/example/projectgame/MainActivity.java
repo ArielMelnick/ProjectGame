@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView volume;
     private TextView tvScore;
     private SharedPreferences sp;
+    private Dialog instructionsDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
             volume.setImageResource(R.drawable.ic_baseline_volume_off_24);
         else
             volume.setImageResource(R.drawable.ic_baseline_volume_up_24);
+
 
         volume.setOnClickListener(new View.OnClickListener() {
 
@@ -92,7 +97,25 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "0546306568"));
             startActivity(intent);
         }
+        if(id == R.id.Instructions){
+            createInstructionsDialog();
+
+        }
         return true;
+
+    }
+
+    public void createInstructionsDialog(){
+
+        instructionsDialog = new Dialog(this);
+
+        instructionsDialog.setContentView(R.layout.instructions_dialog_layout);
+        instructionsDialog.setTitle("Instructions");
+        instructionsDialog.setCancelable(true);
+        instructionsDialog.show();
+
+
+
 
     }
 

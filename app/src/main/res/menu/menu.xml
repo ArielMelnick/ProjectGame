@@ -14,6 +14,12 @@
         android:title="Contact"
         android:orderInCategory="2"
         />
+    <item
+        android:id="@+id/Instructions"
+        android:title="Instructions"
+        android:orderInCategory="3"
+        />
+
 
 
 </menu>

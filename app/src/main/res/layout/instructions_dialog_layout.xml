@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+    <ScrollView
+        android:id="@+id/SCROLLER_ID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:scrollbars="vertical"
+        android:text="When you tap and hold the left side of the screen the airplane will go up, and when you release your finger from the screen the airplane will go down. \n \n When you will tap the right side of the screen, the airplane will shoot. \n\n You can't let the birds to pass the airplane and you can't let the birds to touch the airplane, if you do though, you will lose.  \n\n Your goal is to kill as many birds as you can."
+        android:textColor="@color/black"
+        />
+
+</ScrollView>
+</LinearLayout>
