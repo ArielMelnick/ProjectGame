@@ -52,9 +52,6 @@ public class Flight {
         this.dead = Bitmap.createScaledBitmap(dead, width, height, false);
 
 
-
-
-
         this.x = (int) (64 * screenRatioX);  // so the airplane will be about 64 pixels from the left of the screen.
 
 

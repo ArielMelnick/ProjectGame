@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
 public class GameView extends SurfaceView implements Runnable {
 
     private Thread thread;
@@ -34,7 +33,6 @@ public class GameView extends SurfaceView implements Runnable {
     private GameActivity activity;
     private MediaPlayer mp;
 
-
     public GameView(GameActivity activity, int screenX, int screenY) {
         super(activity);
 
@@ -43,9 +41,6 @@ public class GameView extends SurfaceView implements Runnable {
         sp = activity.getSharedPreferences("game", Context.MODE_PRIVATE);  // connecting to the xml file named "game" in SharedPreferences that i created in "MainActivity".
 
         mp = MediaPlayer.create(activity, R.raw.shoot);
-
-
-
 
         this.screenX = screenX;  // the screen width
         this.screenY = screenY;  // the screen height
@@ -73,7 +68,6 @@ public class GameView extends SurfaceView implements Runnable {
         }
 
         random = new Random();
-
 
     }
 
@@ -103,19 +97,71 @@ public class GameView extends SurfaceView implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 
     public void update() {
+
+        updateFlight();
+
+        List<Bullet> trash = new ArrayList<>();
+
+        for (Bullet bullet : bullets) {   // I'm using list because there could be many bullets on the screen at once
+            if (bullet.x > screenX)  // to check whether the bullet is out of the screen or not
+                trash.add(bullet);   // to delete the bullets that came out of the screen from the list - afterwards - so I won't do the line bellow on a null
+            bullet.x += 50 * screenRatioX;  // to make the bullet move on the screen
+
+            for (Bird bird : birds) {
+
+                if (Rect.intersects(bird.getCollisionShape(), bullet.getCollisionShape())) {  // to check if a bullet hit a bird
+                    score++;
+                    bird.x = -500;  // so the bird will go out of the screen, to the left
+                    bullet.x = screenX + 500;  // so the bullet will be out of the screen
+                    bird.wasShot = true;
+                }
+            }
+        }
+
+        for (Bullet bullet : trash) {  // deleting the bullets that came out of the screen
+            bullets.remove(bullet);
+        }
+
+        for (Bird bird : birds) {
+            bird.x -= bird.speed;  //  so the bird will go towards the airplane -> to the left
+
+            if ((bird.x + bird.width) < 0) {  // if this statement is true -> the bird got out of the screen from the left side
+                if (!(bird.wasShot)) {  // if the bird got out of the screen without getting shoot at so the player had failed and the game will be over
+                    isGameOver = true;
+                    return;
+
+                }
+
+                bird.speed = (int) (Math.random() * (20 * screenRatioX) + 10 * screenRatioX);
+
+                bird.x = screenX;  // so the bird will be on the right side of the screen
+                bird.y = random.nextInt(screenY - bird.height);  // so the maximum height will be (screenY - bird.height)
+
+                bird.wasShot = false;
+            }
+
+            if (Rect.intersects(bird.getCollisionShape(), flight.getCollisionShape())) {  // to check if the bird hit the airplane to end the game
+                isGameOver = true;
+                return;
+
+            }
+        }
+    }
+
+    public void updateFlight() {
+
         int step = (int) (10 * this.screenRatioX);
         this.background1.x -= step;   // to move the image to the left some (the basic is 9, in my phone) pixels
         this.background2.x -= step;
 
         if (this.background1.x + this.background1.background.getWidth() < 0)  // if the size of the picture would be called "x" (this.background1.background.getWidth()) so if the left side -> x coordinate would be "-x" the picture would be exactly out of the screen, when it's below "-x" the picture would be brought to the right side of the screen -> out of the screen
-            this.background1.x = this.background2.x + this.background2.background.getWidth()-4;
+            this.background1.x = this.background2.x + this.background2.background.getWidth() - 4;
         // to bring the image to the right side of the screen -> outside of the screen
         if (this.background2.x + this.background2.background.getWidth() < 0)
-            this.background2.x = this.background1.x + this.background1.background.getWidth()-4;
+            this.background2.x = this.background1.x + this.background1.background.getWidth() - 4;
 
         if (this.flight.isGoingUp)
             this.flight.y -= (int) (20 * this.screenRatioY);  // to make the airplane go up
@@ -128,61 +174,6 @@ public class GameView extends SurfaceView implements Runnable {
         if (this.flight.y >= this.screenY - this.flight.height)
             this.flight.y = this.screenY - this.flight.height;  // to stop the airplane from getting out of the screen
 
-        List<Bullet> trash = new ArrayList<>();
-
-        for (Bullet bullet : bullets) {   // I'm using list because there could be many bullets on the screen at once
-            if (bullet.x > screenX)  // to check whether the bullet is out of the screen or not
-                trash.add(bullet);   // to delete the bullets that came out of the screen from the list - afterwards - so I won't do the line bellow on a null
-            bullet.x += 50 * screenRatioX;  // to make the bullet move on the screen
-
-            for(Bird bird: birds){
-
-                if(Rect.intersects(bird.getCollisionShape(), bullet.getCollisionShape())){  // to check if a bullet hit a bird
-                    score++;
-                    bird.x = -500;  // so the bird will go out of the screen, to the left
-                    bullet.x = screenX + 500;  // so the bullet will be out of the screen
-                    bird.wasShot = true;
-                }
-
-
-            }
-        }
-
-        for (Bullet bullet : trash) {  // deleting the bullets that came out of the screen
-            bullets.remove(bullet);
-        }
-
-        for (Bird bird : birds) {
-            bird.x -= bird.speed;  //  so the bird will go towards the airplane -> to the left
-
-
-            if ((bird.x + bird.width) < 0) {  // if this statement is true -> the bird got out of the screen from the left side
-                if(!(bird.wasShot)){  // if the bird got out of the screen without getting shoot at so the player had failed and the game will be over
-                    isGameOver = true;
-                    return;
-
-                }
-
-                bird.speed = (int) (Math.random() * (20 * screenRatioX) + 10 * screenRatioX);
-
-
-
-                bird.x = screenX;  // so it will be on the right side of the screen
-                bird.y = random.nextInt(screenY - bird.height);  // so the maximum height will be (screenY - bird.height)
-
-                bird.wasShot = false;
-            }
-
-            if(Rect.intersects(bird.getCollisionShape(), flight.getCollisionShape())){  // to check if the bird hit the airplane to end the game
-                isGameOver = true;
-                return;
-
-            }
-
-
-        }
-
-
     }
 
     public void draw() {
@@ -192,9 +183,9 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(this.background1.background, this.background1.x, this.background1.y, this.paint);   // the x and the y are the top left coordinates of the image
             canvas.drawBitmap(this.background2.background, this.background2.x, this.background2.y, this.paint);
 
-            canvas.drawText(score+"",screenX/2f,160 * screenRatioY, paint);  // draw the score of the player
+            canvas.drawText(score + "", screenX / 2f, 160 * screenRatioY, paint);  // draw the score of the player
 
-            if(isGameOver){
+            if (isGameOver) {
                 isPlaying = false; // it will stop the game
                 mp.stop();
                 canvas.drawBitmap(flight.dead, flight.x, flight.y, paint);  // so it will draw the image of the destroyed airplane
@@ -204,11 +195,9 @@ public class GameView extends SurfaceView implements Runnable {
 
                 return;
             }
-            for(Bird bird: birds){
+            for (Bird bird : birds) {
                 canvas.drawBitmap(bird.getBird(), bird.x, bird.y, paint);
             }
-
-
 
             canvas.drawBitmap(this.flight.getFlight(), this.flight.x, this.flight.y, this.paint);
 
@@ -216,17 +205,11 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawBitmap(bullet.bullet, bullet.x, bullet.y, paint);
             }
 
-
-
-
             getHolder().unlockCanvasAndPost(canvas);   // to show the canvas on the screen
 
         }
 
-
     }
-
-
 
 
     public void sleep() {   // the image will change about 60 time per second (60 fps - 60 frames per second)
@@ -255,17 +238,15 @@ public class GameView extends SurfaceView implements Runnable {
                     //  if i will call "newBullet()" here then the bullet would show up together with the first image of the airplane shooting and if it is there it would show up on the screen only after the 5 images of the airplane shooting would be presented on the screen already
                 }
                 break;
-
-
         }
 
         return true;
     }
 
-    public void newBullet() {  // gets called in "getFlight()" in "Flight" class
+    public void newBullet() {  // gets called in "getFlight()" in "Flight" class.
 
-        if(!sp.getBoolean("isMute", false))  // if the player chose to not mute the game then i will play the bullet sound
-            mp.start();
+        if (!sp.getBoolean("isMute", false))  // If the player chose to not mute the game then I will play the bullet sound.
+            mp.start();  // To make the sound of the shooting.
 
         Bullet bullet = new Bullet(getResources());
         bullet.x = flight.x + flight.width;  // Initially, the bullet will be next to the airplane
@@ -276,13 +257,10 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void saveIfHighScore() {
 
-
-
-        if(sp.getInt("highScore", 0) < score){
+        if (sp.getInt("highScore", 0) < score) {
             SharedPreferences.Editor edit = sp.edit();
             edit.putInt("highScore", score);  // creating/changing an int variant named "highScore" inside "game.xml" that inside "shared_prefs" directory
             edit.apply();  // To create/change the high score
-
 
         }
     }
@@ -295,7 +273,5 @@ public class GameView extends SurfaceView implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
-
 }

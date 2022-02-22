@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -21,6 +22,10 @@ import java.net.URI;
 
 public class MainActivity extends AppCompatActivity {
 
+    private boolean isMute;
+    private ImageView volume;
+    private TextView tvScore;
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +35,37 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        TextView tvScore = findViewById(R.id.highScoreTxt);
-        SharedPreferences sp = getSharedPreferences("game", MODE_PRIVATE);
-        tvScore.setText("High score: " +sp.getInt("highScore", 0));
+        tvScore = findViewById(R.id.highScoreTxt);
+        sp = getSharedPreferences("game", MODE_PRIVATE);
+        tvScore.setText("High score: " + sp.getInt("highScore", 0));
 
+        isMute = sp.getBoolean("isMute", false);
 
+        volume = findViewById(R.id.volume);
+
+        if (isMute)  // I'm putting those "if" statements also in here so if the player would return to the game after he closed it, it will just like it was when he exited the game.
+            volume.setImageResource(R.drawable.ic_baseline_volume_off_24);
+        else
+            volume.setImageResource(R.drawable.ic_baseline_volume_up_24);
+
+        volume.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                isMute = !isMute;  // if is mute is true it will turn to be false and if false it will turn to be true
+
+                if (isMute)
+                    volume.setImageResource(R.drawable.ic_baseline_volume_off_24);
+                else
+                    volume.setImageResource(R.drawable.ic_baseline_volume_up_24);
+
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putBoolean("isMute", isMute);
+                editor.apply();
+
+            }
+        });
 
 
         findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
@@ -44,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, GameActivity.class)); // to start gameActivity and through that to show GameView (like MainActivity and activity_main)
             }
         });
-
 
 
     }

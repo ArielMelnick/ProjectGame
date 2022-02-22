@@ -21,13 +21,14 @@ public class Bullet {
         width = width / 4;
         height = height / 4;
 
-        width *=  GameView.screenRatioX;
-        height *=  GameView.screenRatioY;
+        width *= GameView.screenRatioX;
+        height *= GameView.screenRatioY;
 
         this.bullet = Bitmap.createScaledBitmap(bullet, width, height, false);  // reforming the image according to the changes i made.
 
 
     }
+
     public Rect getCollisionShape() {  // it will create a rectangle around the airplane and it will return this rectangle so I will be able to check if there is a collision between the airplane and a bird with "Rect.intersect()"
         return new Rect(x, y, x + width, y + height);
     }
