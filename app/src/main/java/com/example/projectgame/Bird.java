@@ -55,7 +55,7 @@ public class Bird {
 
     }
 
-    public Rect getCollisionShape() {  // it will create a rectangle around the bird and it will return this rectangle so will be able to check if there is a collision between the bird and something else like the airplane and a bullet with "Rect.intersect()"
+    public Rect getCollisionShape() {  // it will create a rectangle around the bird and it will return this rectangle so I will be able to check if there is a collision between the bird and something else like the airplane or a bullet with "Rect.intersect()"
         return new Rect(x, y, x + width, y + height);  // the "x" is the left side of the bird, the "y" is the top, "x + width" is the right side and "y + height" is the bottom coordinate
     }
 }

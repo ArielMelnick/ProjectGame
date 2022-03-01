@@ -1,6 +1,7 @@
 package com.example.projectgame;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvScore;
     private SharedPreferences sp;
     private Dialog instructionsDialog;
+    private SharedPreferences.Editor editor;
 
 
     @Override
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 else
                     volume.setImageResource(R.drawable.ic_baseline_volume_up_24);
 
-                SharedPreferences.Editor editor = sp.edit();
+                editor = sp.edit();
                 editor.putBoolean("isMute", isMute);
                 editor.apply();
 
@@ -81,10 +83,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
+
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
 
@@ -97,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "0546306568"));
             startActivity(intent);
         }
-        if(id == R.id.Instructions){
+        if (id == R.id.Instructions) {
             createInstructionsDialog();
 
         }
@@ -105,18 +107,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void createInstructionsDialog(){
+    public void createInstructionsDialog() {
 
         instructionsDialog = new Dialog(this);
 
         instructionsDialog.setContentView(R.layout.instructions_dialog_layout);
         instructionsDialog.setTitle("Instructions");
         instructionsDialog.setCancelable(true);
+
         instructionsDialog.show();
-
-
-
 
     }
 
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        tvScore.setText("High score: " + sp.getInt("highScore", 0));
+
+    }
 }

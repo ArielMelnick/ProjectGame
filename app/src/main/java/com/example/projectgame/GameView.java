@@ -87,6 +87,7 @@ public class GameView extends SurfaceView implements Runnable {
         this.thread = new Thread(this);
         this.thread.start();   // calls - run()
 
+
     }
 
     public void pause() {
@@ -126,7 +127,7 @@ public class GameView extends SurfaceView implements Runnable {
         }
 
         for (Bird bird : birds) {
-            bird.x -= bird.speed;  //  so the bird will go towards the airplane -> to the left
+            bird.x -= bird.speed;  //  so the bird will go towards the airplane -> to the left in a random speed
 
             if ((bird.x + bird.width) < 0) {  // if this statement is true -> the bird got out of the screen from the left side
                 if (!(bird.wasShot)) {  // if the bird got out of the screen without getting shoot at so the player had failed and the game will be over
@@ -210,14 +211,27 @@ public class GameView extends SurfaceView implements Runnable {
             getHolder().unlockCanvasAndPost(canvas);   // to show the canvas on the screen
 
         }
-
     }
+
+
+
+    public void waitBeforeExiting() {
+
+        try {
+            Thread.sleep(3000);
+            activity.finish();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
     public void sleep() {   // the image will change about 60 time per second (60 fps - 60 frames per second)
 
         try {
-            Thread.sleep(17);
+            Thread.sleep(10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -267,13 +281,5 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    public void waitBeforeExiting() {
 
-        try {
-            Thread.sleep(3000);
-            activity.finish();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 }

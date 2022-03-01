@@ -17,33 +17,40 @@
         <item name="android:windowFullscreen">true</item>
         <item name="actionBarStyle">@style/ThemeActionBar</item>
         <item name="windowActionBarOverlay">true</item>
+        <item name ="android:layoutDirection">ltr</item>
+
 
 
 
     </style>
-    <style name="ThemeActionBar"
-        parent="Widget.AppCompat.Light.ActionBar.Solid">
+
+    <style name="ThemeActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid">
+
         <item name="background">@null</item>
         <item name="title">" "</item>
+
+
+
+
+
 
     </style>
 
     <style name="Theme.GameActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
-    <item name="colorPrimary">@color/purple_500</item>
-    <item name="colorPrimaryVariant">@color/purple_700</item>
-    <item name="colorOnPrimary">@color/white</item>
-    <!-- Secondary brand color. -->
-    <item name="colorSecondary">@color/teal_200</item>
-    <item name="colorSecondaryVariant">@color/teal_700</item>
-    <item name="colorOnSecondary">@color/black</item>
-    <!-- Status bar color. -->
-    <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <item name ="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
 
     </style>
-
 
 
 </resources>
