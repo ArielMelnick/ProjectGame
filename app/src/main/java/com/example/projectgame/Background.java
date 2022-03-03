@@ -9,7 +9,7 @@ import androidx.annotation.ColorInt;
 
 public class Background {
 
-    float x = 0, y = 0; // those will be the coordinates of the image
+    float x = 0, y = 0; // those will be the coordinates of the images on the screen
     Bitmap background;
 
     public Background(int screenX, int screenY, Resources res) {  // res contains the image data

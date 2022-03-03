@@ -3,6 +3,7 @@ package com.example.projectgame;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 
 public class Bird {
@@ -25,12 +26,14 @@ public class Bird {
         width *= GameView.screenRatioX;
         height *= GameView.screenRatioY;
 
+
         bird1 = Bitmap.createScaledBitmap(bird1, width, height, false);
         bird2 = Bitmap.createScaledBitmap(bird2, width, height, false);
         bird3 = Bitmap.createScaledBitmap(bird3, width, height, false);
         bird4 = Bitmap.createScaledBitmap(bird4, width, height, false);
 
-        y = -height;  // initially the bird will be out of the screen on the bottom and it will come up from there
+
+        y = -height;  // initially the bird will be out of the screen on the top and it will come up from there
         x = 0;  // initially the bird will be on the left side of the screen
 
     }

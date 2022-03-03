@@ -188,12 +188,18 @@ public class GameView extends SurfaceView implements Runnable {
 
             if (isGameOver) {
                 isPlaying = false; // it will stop the game
+
                 mp.stop();
+
                 canvas.drawBitmap(flight.dead, flight.x, flight.y, paint);  // so it will draw the image of the destroyed airplane
+
                 saveIfHighScore();  // to store the high score
+
                 paint.setColor(Color.RED);
                 canvas.drawText("Game Over", (screenX / 2f) -260, screenY / 2f, paint);
+
                 getHolder().unlockCanvasAndPost(canvas);
+
                 waitBeforeExiting();
 
                 return;
