@@ -10,10 +10,10 @@ public class Robot {
     Bitmap[] run = new Bitmap[10];
     Bitmap[] dead = new Bitmap[11];
     Bitmap[] jump = new Bitmap[11];
-    int x, y;
+    int x, y, defaultY;
     int widthRun, widthDead, widthJump, heightRun, heightDead, heightJump, averageWidth, averageHeight;
 
-    private int runCounter = 0, deadCounter = 1, jumpCounter = 1;
+    int runCounter = 0, deadCounter = 0, jumpCounter = 0;
     Boolean toJump = false, toDie = false;
 
 
@@ -83,26 +83,35 @@ public class Robot {
         heightDead /= 5;
         heightJump /= 5;
 
-        widthRun *= GameView.screenRatioX;
-        widthDead *= GameView.screenRatioX;
-        widthJump *= GameView.screenRatioX;
+        widthRun *= GameGroundView.screenRatioX;
+        widthDead *= GameGroundView.screenRatioX;
+        widthJump *= GameGroundView.screenRatioX;
 
-        heightRun *= GameView.screenRatioY;
-        heightDead *= GameView.screenRatioY;
-        heightJump *= GameView.screenRatioY;
+        heightRun *= GameGroundView.screenRatioY;
+        heightDead *= GameGroundView.screenRatioY;
+        heightJump *= GameGroundView.screenRatioY;
 
-        averageWidth = (widthRun+widthDead+widthJump)/3;
-        averageHeight = (heightRun+heightDead+heightJump)/3;
+        averageWidth = (widthRun + widthDead + widthJump) / 3;
+        averageHeight = (heightRun + heightDead + heightJump) / 3;
+
+        x = (int) (64 * GameGroundView.screenRatioX);
+        y = (int) (665 * GameGroundView.screenRatioY);
+        defaultY = y;
 
     }
 
     public Bitmap getRobot() {
 
         if (toJump) {
+
+            if (jumpCounter < 5)
+                y -= 100;
+            if (jumpCounter >= 5)
+                y += 100;
             jumpCounter++;
 
             if (jumpCounter == 10) {
-                jumpCounter = 1;
+                jumpCounter = 0;
                 toJump = false;
                 return jump[10];
             }
@@ -115,7 +124,7 @@ public class Robot {
             deadCounter++;
 
             if (deadCounter == 10) {
-                deadCounter = 1;
+                deadCounter = 0;
                 toDie = false;
                 return dead[10];
             }
@@ -123,8 +132,8 @@ public class Robot {
         }
 
         runCounter++;
-        if(runCounter == 9){
-            runCounter = 1;
+        if (runCounter == 9) {
+            runCounter = 0;
             return run[9];
         }
         return run[runCounter];

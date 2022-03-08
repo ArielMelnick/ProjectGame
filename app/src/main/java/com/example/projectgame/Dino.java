@@ -44,6 +44,7 @@ public class Dino {
         dino8 = Bitmap.createScaledBitmap(dino8, width, height, false);
 
         x = 0;
+        // I need to take care of the y coordinate and also the x
 
     }
 

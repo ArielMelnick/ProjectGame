@@ -102,6 +102,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void update() {
 
+        updateBackground();
         updateFlight();
 
         List<Bullet> trash = new ArrayList<>();
@@ -152,7 +153,7 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    public void updateFlight() {
+    public void updateBackground(){
 
         int step = (int) (10 * this.screenRatioX);
         this.background1.x -= step;   // to move the image to the left some (the basic is 9, in my phone) pixels
@@ -163,6 +164,11 @@ public class GameView extends SurfaceView implements Runnable {
         // to bring the image to the right side of the screen -> outside of the screen
         if (this.background2.x + this.background2.background.getWidth() < 0)
             this.background2.x = this.background1.x + this.background1.background.getWidth() - 4;
+
+
+    }
+
+    public void updateFlight() {
 
         if (this.flight.isGoingUp)
             this.flight.y -= (int) (20 * this.screenRatioY);  // to make the airplane go up
@@ -234,7 +240,7 @@ public class GameView extends SurfaceView implements Runnable {
 
 
 
-    public void sleep() {   // the image will change about 60 time per second (60 fps - 60 frames per second)
+    public void sleep() {
 
         try {
             Thread.sleep(10);

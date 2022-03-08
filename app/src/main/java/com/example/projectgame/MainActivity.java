@@ -74,12 +74,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, GameActivity.class)); // to start gameActivity and through that to show GameView (like MainActivity and activity_main)
+            }
+        });
+
+        findViewById(R.id.playOnGround).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, GameGroundActivity.class)); // to start gameActivity and through that to show GameView (like MainActivity and activity_main)
             }
         });
 
@@ -118,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
         instructionsDialog.show();
 
     }
-
 
 
     @Override
