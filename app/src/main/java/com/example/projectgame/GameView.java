@@ -131,10 +131,10 @@ public class GameView extends SurfaceView implements Runnable {
             bird.x -= bird.speed;  //  so the bird will go towards the airplane -> to the left in a random speed
 
             if ((bird.x + bird.width) < 0) {  // if this statement is true -> the bird got out of the screen from the left side
+
                 if (!(bird.wasShot)) {  // if the bird got out of the screen without getting shoot at so the player had failed and the game will be over
                     isGameOver = true;
                     return;
-
                 }
 
                 bird.speed = (int) (Math.random() * (20 * screenRatioX) + 10 * screenRatioX);
@@ -153,7 +153,7 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    public void updateBackground(){
+    public void updateBackground() {
 
         int step = (int) (10 * this.screenRatioX);
         this.background1.x -= step;   // to move the image to the left some (the basic is 9, in my phone) pixels
@@ -202,7 +202,7 @@ public class GameView extends SurfaceView implements Runnable {
                 saveIfHighScore();  // to store the high score
 
                 paint.setColor(Color.RED);
-                canvas.drawText("Game Over", (screenX / 2f) -260, screenY / 2f, paint);
+                canvas.drawText("Game Over", (screenX / 2f) - 260, screenY / 2f, paint);
 
                 getHolder().unlockCanvasAndPost(canvas);
 
@@ -226,7 +226,6 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
 
-
     public void waitBeforeExiting() {
 
         try {
@@ -236,8 +235,6 @@ public class GameView extends SurfaceView implements Runnable {
             e.printStackTrace();
         }
     }
-
-
 
 
     public void sleep() {

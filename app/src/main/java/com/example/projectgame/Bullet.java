@@ -1,5 +1,6 @@
 package com.example.projectgame;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,8 +22,15 @@ public class Bullet {
         width = width / 4;
         height = height / 4;
 
-        width *= GameView.screenRatioX;
-        height *= GameView.screenRatioY;
+        if(GameView.screenRatioX >0) {
+
+            width *= GameView.screenRatioX;
+            height *= GameView.screenRatioY;
+        }
+        else {
+            width *= GameGroundView.screenRatioX;
+            height *= GameGroundView.screenRatioY;
+        }
 
         this.bullet = Bitmap.createScaledBitmap(bullet, width, height, false);  // reforming the image according to the changes i made.
 

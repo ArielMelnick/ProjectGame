@@ -10,11 +10,11 @@ public class Dino {
     int x, y; // the coordinates of the dino on the screen
     private int counter = 1;
     int width, height;
-    int speed;
+    int speed = 20;
     Bitmap dino1, dino2, dino3, dino4, dino5, dino6, dino7, dino8;  // the stages of the running dino
     boolean wasShot = true; // to check whether the dino got shot(and thus got out of the screen) or he got out of the screen without getting shot
 
-    Dino(Resources res){
+    Dino(Resources res) {
 
         dino1 = BitmapFactory.decodeResource(res, R.drawable.dino_run_1);
         dino2 = BitmapFactory.decodeResource(res, R.drawable.dino_run_2);
@@ -28,11 +28,11 @@ public class Dino {
         width = dino1.getWidth();
         height = dino1.getHeight();
 
-        width /= 5;
-        height /=5;
+        width /= 3;
+        height /= 3;
 
-        width *= GameView.screenRatioX;
-        height *= GameView.screenRatioY;
+        width *= GameGroundView.screenRatioX;
+        height *= GameGroundView.screenRatioY;
 
         dino1 = Bitmap.createScaledBitmap(dino1, width, height, false);
         dino2 = Bitmap.createScaledBitmap(dino2, width, height, false);
@@ -44,39 +44,33 @@ public class Dino {
         dino8 = Bitmap.createScaledBitmap(dino8, width, height, false);
 
         x = 0;
-        // I need to take care of the y coordinate and also the x
+        y = -height;
 
     }
 
-    public Bitmap getDino(){
+    public Bitmap getDino() {
 
-        if(counter == 1){
+        if (counter == 1) {
 
             counter++;
             return dino1;
 
-        }
-        else if (counter == 2){
+        } else if (counter == 2) {
             counter++;
             return dino2;
-        }
-        else if (counter == 3){
+        } else if (counter == 3) {
             counter++;
             return dino3;
-        }
-        else if (counter == 4){
+        } else if (counter == 4) {
             counter++;
             return dino4;
-        }
-        else if (counter == 5){
+        } else if (counter == 5) {
             counter++;
             return dino5;
-        }
-        else if (counter == 6){
+        } else if (counter == 6) {
             counter++;
             return dino6;
-        }
-        else if (counter == 7){
+        } else if (counter == 7) {
             counter++;
             return dino7;
         }
@@ -85,9 +79,8 @@ public class Dino {
     }
 
     public Rect getCollisionShape() {
-        return new Rect(x, y, x + width, y + height);
+        return new Rect((int) (x + 400 * GameGroundView.screenRatioX), (int) (y + 60 * GameGroundView.screenRatioX), x + width, y + height);
     }
 
 
-
-    }
+}

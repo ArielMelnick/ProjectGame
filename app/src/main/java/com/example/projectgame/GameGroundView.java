@@ -1,10 +1,9 @@
 package com.example.projectgame;
 
-import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Handler;
-import android.os.Looper;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
@@ -13,7 +12,7 @@ import java.util.List;
 
 public class GameGroundView extends SurfaceView implements Runnable {
 
-    private boolean isPlaying;
+    private boolean isPlaying, isGameOver = false;
     private Thread thread;
     private final int screenX, screenY;
     public static float screenRatioX, screenRatioY;
@@ -21,11 +20,16 @@ public class GameGroundView extends SurfaceView implements Runnable {
     private Paint paint;
     private Robot robot;
     private List<Bullet> bullets;
-    private Zombie[] zombies;
+    private Spikes spikes;
+    private GameGroundActivity activity;
+    private Dino dino;
+    private int score = 0;
 
 
-    public GameGroundView(Context context, int screenX, int screenY) {
-        super(context);
+    public GameGroundView(GameGroundActivity activity, int screenX, int screenY) {
+        super(activity);
+
+        this.activity = activity;
 
         this.screenX = screenX;
         this.screenY = screenY;
@@ -44,11 +48,9 @@ public class GameGroundView extends SurfaceView implements Runnable {
 
         bullets = new ArrayList<>();
 
-        zombies[0] = new Zombie(getResources());
-        zombies[1] = new Zombie(getResources());
-        zombies[2] = new Zombie(getResources());
+        spikes = new Spikes(getResources());
 
-
+        dino = new Dino(getResources());
 
 
     }
@@ -69,19 +71,85 @@ public class GameGroundView extends SurfaceView implements Runnable {
         updateBackground();
 
 
+        if (robot.toJump && robot.y > 280)
+            robot.y -= (int) (25 * screenRatioY);
+        else {
+            robot.y += (int) (35 * this.screenRatioY);
+            robot.toJump = false;
+        }
+        if (robot.y > robot.defaultY)
+            robot.y = robot.defaultY;
+
+
+        List<Bullet> trash = new ArrayList<>();
+
+        for (Bullet bullet : bullets) {
+            if (bullet.x > screenX)
+                trash.add(bullet);
+            bullet.x += 50 * screenRatioX;
+
+            if (Rect.intersects(dino.getCollisionShape(), bullet.getCollisionShape())) {
+                score++;
+                dino.x = -600;
+                bullet.x = screenX + 500;
+                dino.wasShot = true;
+            }
+        }
+
+        for (Bullet bullet : trash) {
+            bullets.remove(bullet);
+        }
+
+        dino.x -= dino.speed;
+        if (dino.x + dino.width < 0) {
+
+            if (!dino.wasShot) {
+                isGameOver = true;
+                return;
+            }
+
+            dino.speed = (int) (Math.random() * (40 * screenRatioX) + 30 * screenRatioX);
+            dino.x = (int) ((Math.random() * (400) + screenX + 100) * screenRatioX);
+            dino.y = (int) ((665 * screenRatioY) - (90 * screenRatioX));
+            dino.wasShot = false;
+        }
+
+
+        spikes.x -= spikes.speed;
+        if (spikes.x + spikes.width < 0) {
+
+            spikes.x = (int) ((Math.random() * (400) + screenX + 100) * screenRatioX);
+            spikes.y = (int) ((665 * screenRatioY) + 170 * screenRatioX);
+            spikes.speed = (int) (22 * screenRatioX);
+
+        }
+
+
+        if (Rect.intersects(dino.getCollisionShape(), robot.getCollisionShape())) {
+            isGameOver = true;
+            robot.y = robot.defaultY + 15;
+            return;
+        }
+
+
+        if (Rect.intersects(spikes.getCollisionShape(), robot.getCollisionShape())) {
+            isGameOver = true;
+            robot.y = robot.defaultY + 15;
+            return;
+        }
 
 
     }
 
     public void updateBackground() {
 
-        int step = (int) (10 * screenRatioX);
-        background1.x -= step;   // to move the image to the left some (the basic is 9, in my phone) pixels
+        int step = (int) (22 * screenRatioX);
+        background1.x -= step;
         background2.x -= step;
 
-        if (background1.x + background1.background.getWidth() < 0)  // if the size of the picture would be called "x" (this.background1.background.getWidth()) so if the left side -> x coordinate would be "-x" the picture would be exactly out of the screen, when it's below "-x" the picture would be brought to the right side of the screen -> out of the screen
+        if (background1.x + background1.background.getWidth() < 0)
             background1.x = background2.x + background2.background.getWidth() - 4;
-        // to bring the image to the right side of the screen -> outside of the screen
+
         if (background2.x + background2.background.getWidth() < 0)
             background2.x = background1.x + background1.background.getWidth() - 4;
 
@@ -96,20 +164,43 @@ public class GameGroundView extends SurfaceView implements Runnable {
             canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
             canvas.drawBitmap(background2.background, background2.x, background2.y, paint);
 
+            canvas.drawBitmap(spikes.getSpikes(), spikes.x, spikes.y, paint);
+
+            if (isGameOver) {
+
+                robot.toDie = true;
+                canvas.drawBitmap(robot.getRobot(), robot.x, robot.y, paint);
+                isPlaying = false;
+                paint.setColor(Color.RED);
+                paint.setTextSize(130);
+                canvas.drawText("Game Over", (screenX / 2f) - 260, screenY / 2f, paint);
+
+                getHolder().unlockCanvasAndPost(canvas);
+
+                waitBeforeExiting();
+
+                return;
+            }
+
+            canvas.drawBitmap(dino.getDino(), dino.x, dino.y, paint);
+
+            for (Bullet bullet : bullets) {
+                canvas.drawBitmap(bullet.bullet, bullet.x, bullet.y, paint);
+            }
+
 
             canvas.drawBitmap(robot.getRobot(), robot.x, robot.y, paint);
-
-
             getHolder().unlockCanvasAndPost(canvas);
-
         }
 
+
     }
+
 
     public void sleep() {
 
         try {
-            Thread.sleep(10);
+            Thread.sleep(17);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -137,9 +228,10 @@ public class GameGroundView extends SurfaceView implements Runnable {
         switch (event.getAction()) {
 
             case MotionEvent.ACTION_UP:
-                if (event.getX() < screenX / 2)
-                    robot.toJump = true;
-                else
+                if (event.getX() < screenX / 2) {
+                    if (robot.y == robot.defaultY)
+                        robot.toJump = true;
+                } else
                     newBullet();
                 break;
         }
@@ -148,6 +240,19 @@ public class GameGroundView extends SurfaceView implements Runnable {
 
     public void newBullet() {
         Bullet bullet = new Bullet(getResources());
+        bullet.x = robot.x + robot.averageWidth;
+        bullet.y = (int) (robot.y + robot.averageHeight / 2);
+        bullets.add(bullet);
 
+    }
+
+    public void waitBeforeExiting() {
+
+        try {
+            Thread.sleep(3000);
+            activity.finish();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
