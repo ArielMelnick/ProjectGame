@@ -20,8 +20,9 @@ public class GameView extends SurfaceView implements Runnable {
 
     private Thread thread;
     private boolean isPlaying, isGameOver = false;
-    private Background background1, background2;
-    private final int screenX, screenY;
+    private Background background1;
+    private Background background2;
+    private int screenX, screenY;
     private int score;
     private Paint paint;
     private Flight flight;
@@ -44,8 +45,8 @@ public class GameView extends SurfaceView implements Runnable {
 
         this.screenX = screenX;  // the screen width
         this.screenY = screenY;  // the screen height
-        this.screenRatioX = screenX / 2148f;
-        this.screenRatioY = screenY / 1080f;
+        screenRatioX = screenX / 2148f;
+        screenRatioY = screenY / 1080f;
 
         this.background1 = new Background(screenX, screenY, getResources());
         this.background2 = new Background(screenX, screenY, getResources());
@@ -155,7 +156,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void updateBackground() {
 
-        int step = (int) (10 * this.screenRatioX);
+        int step = (int) (10 * screenRatioX);
         this.background1.x -= step;   // to move the image to the left some (the basic is 9, in my phone) pixels
         this.background2.x -= step;
 
@@ -171,9 +172,9 @@ public class GameView extends SurfaceView implements Runnable {
     public void updateFlight() {
 
         if (this.flight.isGoingUp)
-            this.flight.y -= (int) (20 * this.screenRatioY);  // to make the airplane go up
+            this.flight.y -= (int) (20 * screenRatioY);  // to make the airplane go up
         else
-            this.flight.y += (int) (20 * this.screenRatioY);  // to make the airplane go down
+            this.flight.y += (int) (20 * screenRatioY);  // to make the airplane go down
 
         if (this.flight.y < 0)
             this.flight.y = 0;  // to stop the airplane from getting out of the screen
@@ -282,9 +283,9 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void saveIfHighScore() {
 
-        if (sp.getInt("highScore", 0) < score) {
+        if (sp.getInt("HeavensHighScore", 0) < score) {
             SharedPreferences.Editor edit = sp.edit();
-            edit.putInt("highScore", score);  // creating/changing an int variant named "highScore" inside "game.xml" that inside "shared_prefs" directory
+            edit.putInt("HeavensHighScore", score);  // creating/changing an int variant named "highScore" inside "game.xml" that inside "shared_prefs" directory
             edit.apply();  // To create/change the high score
 
         }

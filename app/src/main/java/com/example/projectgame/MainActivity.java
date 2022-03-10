@@ -1,33 +1,25 @@
 package com.example.projectgame;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
-
-import java.net.URI;
 
 public class MainActivity extends AppCompatActivity {
 
     private boolean isMute;
     private ImageView volume;
-    private TextView tvScore;
+    private TextView tvHeavensHighScore;
+    private TextView tvGroundHighScore;
     private SharedPreferences sp;
     private Dialog instructionsDialog;
     private SharedPreferences.Editor editor;
@@ -41,9 +33,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        tvScore = findViewById(R.id.highScoreTxt);
+        tvHeavensHighScore = findViewById(R.id.tvHeavensHighScore);
+        tvGroundHighScore = findViewById(R.id.tvGroundHighScore);
+
         sp = getSharedPreferences("game", MODE_PRIVATE);
-        tvScore.setText("High score: " + sp.getInt("highScore", 0));
+
 
         isMute = sp.getBoolean("isMute", false);
 
@@ -86,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, GameGroundActivity.class)); // to start gameActivity and through that to show GameView (like MainActivity and activity_main)
+                startActivity(new Intent(MainActivity.this, GameGroundActivity.class));
             }
         });
 
@@ -130,7 +124,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        tvScore.setText("High score: " + sp.getInt("highScore", 0));
+        tvHeavensHighScore.setText("Heavens High Score: " + sp.getInt("HeavensHighScore", 0));
+        tvGroundHighScore.setText("Ground High Score: " + sp.getInt("GroundHighScore", 0));
+
 
     }
 }

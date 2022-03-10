@@ -10,7 +10,7 @@ public class Spikes {
     private Bitmap spikes;
     int width, height;
     int x, y;
-    private int counter = 0;
+    private final int counter = 0;
     int speed = 20;
 
 

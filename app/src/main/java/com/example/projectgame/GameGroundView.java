@@ -1,9 +1,12 @@
 package com.example.projectgame;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
@@ -16,7 +19,8 @@ public class GameGroundView extends SurfaceView implements Runnable {
     private Thread thread;
     private final int screenX, screenY;
     public static float screenRatioX, screenRatioY;
-    private GroundBackground background1, background2;
+    private GroundBackground background1;
+    private GroundBackground background2;
     private Paint paint;
     private Robot robot;
     private List<Bullet> bullets;
@@ -24,6 +28,9 @@ public class GameGroundView extends SurfaceView implements Runnable {
     private GameGroundActivity activity;
     private Dino dino;
     private int score = 0;
+    private SharedPreferences sp;
+    private MediaPlayer mp;
+    private double increaseSpeed;
 
 
     public GameGroundView(GameGroundActivity activity, int screenX, int screenY) {
@@ -31,11 +38,15 @@ public class GameGroundView extends SurfaceView implements Runnable {
 
         this.activity = activity;
 
+        sp = activity.getSharedPreferences("game", Context.MODE_PRIVATE);
+
+        mp = MediaPlayer.create(activity, R.raw.shoot);
+
         this.screenX = screenX;
         this.screenY = screenY;
 
-        this.screenRatioX = screenX / 2148f;
-        this.screenRatioY = screenY / 1080f;
+        screenRatioX = screenX / 2148f;
+        screenRatioY = screenY / 1080f;
 
         background1 = new GroundBackground(screenX, screenY, getResources());
         background2 = new GroundBackground(screenX, screenY, getResources());
@@ -45,6 +56,8 @@ public class GameGroundView extends SurfaceView implements Runnable {
         robot = new Robot(getResources());
 
         this.paint = new Paint();
+        this.paint.setTextSize(130);  //  I'm using "paint" to show the score
+        this.paint.setColor(Color.WHITE);
 
         bullets = new ArrayList<>();
 
@@ -60,6 +73,7 @@ public class GameGroundView extends SurfaceView implements Runnable {
 
         while (isPlaying) {
             update();
+            increaseSpeed += 0.01;
             draw();
             sleep();
         }
@@ -74,7 +88,7 @@ public class GameGroundView extends SurfaceView implements Runnable {
         if (robot.toJump && robot.y > 280)
             robot.y -= (int) (25 * screenRatioY);
         else {
-            robot.y += (int) (35 * this.screenRatioY);
+            robot.y += (int) (35 * screenRatioY);
             robot.toJump = false;
         }
         if (robot.y > robot.defaultY)
@@ -88,11 +102,13 @@ public class GameGroundView extends SurfaceView implements Runnable {
                 trash.add(bullet);
             bullet.x += 50 * screenRatioX;
 
-            if (Rect.intersects(dino.getCollisionShape(), bullet.getCollisionShape())) {
-                score++;
-                dino.x = -600;
-                bullet.x = screenX + 500;
-                dino.wasShot = true;
+            if (dino.x < screenX - 400 && dino.x > 0) {  // So it won't be shot outside of the screen
+                if (Rect.intersects(dino.getCollisionShape(), bullet.getCollisionShape())) {
+                    score++;
+                    dino.x = -600;
+                    bullet.x = screenX + 500;
+                    dino.wasShot = true;
+                }
             }
         }
 
@@ -108,7 +124,9 @@ public class GameGroundView extends SurfaceView implements Runnable {
                 return;
             }
 
-            dino.speed = (int) (Math.random() * (40 * screenRatioX) + 30 * screenRatioX);
+
+
+            dino.speed = (int) (Math.random() * (40 * screenRatioX) + (30 * screenRatioX) +(int)increaseSpeed);
             dino.x = (int) ((Math.random() * (400) + screenX + 100) * screenRatioX);
             dino.y = (int) ((665 * screenRatioY) - (90 * screenRatioX));
             dino.wasShot = false;
@@ -120,7 +138,7 @@ public class GameGroundView extends SurfaceView implements Runnable {
 
             spikes.x = (int) ((Math.random() * (400) + screenX + 100) * screenRatioX);
             spikes.y = (int) ((665 * screenRatioY) + 170 * screenRatioX);
-            spikes.speed = (int) (22 * screenRatioX);
+            spikes.speed = (int) (22 * screenRatioX) +  (int)increaseSpeed;
 
         }
 
@@ -143,7 +161,7 @@ public class GameGroundView extends SurfaceView implements Runnable {
 
     public void updateBackground() {
 
-        int step = (int) (22 * screenRatioX);
+        int step = (int) (22 * screenRatioX) +  (int)increaseSpeed;
         background1.x -= step;
         background2.x -= step;
 
@@ -164,15 +182,24 @@ public class GameGroundView extends SurfaceView implements Runnable {
             canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
             canvas.drawBitmap(background2.background, background2.x, background2.y, paint);
 
+            canvas.drawText(score + "", screenX / 2f, 160 * screenRatioY, paint);  // draw the score of the player
+
             canvas.drawBitmap(spikes.getSpikes(), spikes.x, spikes.y, paint);
 
             if (isGameOver) {
+                mp.stop();
 
                 robot.toDie = true;
+
                 canvas.drawBitmap(robot.getRobot(), robot.x, robot.y, paint);
+
                 isPlaying = false;
+
+                saveIfHighScore();
+
                 paint.setColor(Color.RED);
                 paint.setTextSize(130);
+
                 canvas.drawText("Game Over", (screenX / 2f) - 260, screenY / 2f, paint);
 
                 getHolder().unlockCanvasAndPost(canvas);
@@ -239,9 +266,13 @@ public class GameGroundView extends SurfaceView implements Runnable {
     }
 
     public void newBullet() {
+
+        if (!sp.getBoolean("isMute", false))  // If the player chose to not mute the game then I will play the bullet sound.
+            mp.start();  // To make the sound of the shooting.
+
         Bullet bullet = new Bullet(getResources());
         bullet.x = robot.x + robot.averageWidth;
-        bullet.y = (int) (robot.y + robot.averageHeight / 2);
+        bullet.y = robot.y + robot.averageHeight / 2;
         bullets.add(bullet);
 
     }
@@ -255,4 +286,15 @@ public class GameGroundView extends SurfaceView implements Runnable {
             e.printStackTrace();
         }
     }
+
+    public void saveIfHighScore() {
+
+        if (sp.getInt("GroundHighScore", 0) < score) {
+            SharedPreferences.Editor edit = sp.edit();
+            edit.putInt("GroundHighScore", score);  // creating/changing an int variant named "highScore" inside "game.xml" that inside "shared_prefs" directory
+            edit.apply();  // To create/change the high score
+
+        }
+    }
+
 }
