@@ -2,12 +2,15 @@ package com.example.projectgame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Point;
 import android.os.Bundle;
 
 public class GameGroundActivity extends AppCompatActivity {
 
     private GameGroundView gameGroundView;
+    private MyBroadcastReceiver mbr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,5 +35,11 @@ public class GameGroundActivity extends AppCompatActivity {
     protected void onResume() {   // if it comes back from another activity to this activity then onResume will be called
         super.onResume();
         gameGroundView.resume();
+
+        mbr = new MyBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_POWER_CONNECTED);
+        filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        registerReceiver(mbr, filter);
     }
 }

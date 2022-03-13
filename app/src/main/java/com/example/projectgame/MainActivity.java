@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private Dialog instructionsDialog;
     private SharedPreferences.Editor editor;
+    private MyBroadcastReceiver mbr;
 
 
     @Override
@@ -127,6 +129,21 @@ public class MainActivity extends AppCompatActivity {
         tvHeavensHighScore.setText("Heavens High Score: " + sp.getInt("HeavensHighScore", 0));
         tvGroundHighScore.setText("Ground High Score: " + sp.getInt("GroundHighScore", 0));
 
+        mbr = new MyBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_POWER_CONNECTED);
+        filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(mbr, filter);
 
+
+    }
+
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mbr);
     }
 }

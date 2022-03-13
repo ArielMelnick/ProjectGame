@@ -42,7 +42,7 @@ public class Spikes {
     }
 
     public Rect getCollisionShape() {  // it will create a rectangle around the airplane and it will return this rectangle so I will be able to check if there is a collision between the airplane and a bird with "Rect.intersect()"
-        return new Rect((int) (x + 140 * GameGroundView.screenRatioX), (int) (y + 60 * GameGroundView.screenRatioY), (int) (x + width - 100 * GameGroundView.screenRatioX), y + height);
+        return new Rect((int) (x + 130 * GameGroundView.screenRatioX), (int) (y + 60 * GameGroundView.screenRatioY), (int) (x + width - 90 * GameGroundView.screenRatioX), y + height);
     }
 
 

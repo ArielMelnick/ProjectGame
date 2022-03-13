@@ -96,13 +96,14 @@ public class GameGroundView extends SurfaceView implements Runnable {
 
 
         List<Bullet> trash = new ArrayList<>();
+        trash.clear();
 
         for (Bullet bullet : bullets) {
             if (bullet.x > screenX)
                 trash.add(bullet);
             bullet.x += 50 * screenRatioX;
 
-            if (dino.x < screenX - 400 && dino.x > 0) {  // So it won't be shot outside of the screen
+            if (dino.x < screenX - 400 && dino.x > 0) {  // So the dino won't be shot outside of the screen
                 if (Rect.intersects(dino.getCollisionShape(), bullet.getCollisionShape())) {
                     score++;
                     dino.x = -600;
@@ -211,13 +212,15 @@ public class GameGroundView extends SurfaceView implements Runnable {
 
             canvas.drawBitmap(dino.getDino(), dino.x, dino.y, paint);
 
+            canvas.drawBitmap(robot.getRobot(), robot.x, robot.y, paint);
+
             for (Bullet bullet : bullets) {
                 canvas.drawBitmap(bullet.bullet, bullet.x, bullet.y, paint);
+
             }
 
-
-            canvas.drawBitmap(robot.getRobot(), robot.x, robot.y, paint);
             getHolder().unlockCanvasAndPost(canvas);
+
         }
 
 
@@ -272,7 +275,7 @@ public class GameGroundView extends SurfaceView implements Runnable {
 
         Bullet bullet = new Bullet(getResources());
         bullet.x = robot.x + robot.averageWidth;
-        bullet.y = robot.y + robot.averageHeight / 2;
+        bullet.y = (int) ((robot.y + robot.averageHeight / 2 )-30*screenRatioY);
         bullets.add(bullet);
 
     }

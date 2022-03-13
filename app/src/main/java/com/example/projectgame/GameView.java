@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Random;
 
@@ -156,7 +157,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void updateBackground() {
 
-        int step = (int) (10 * screenRatioX);
+        int step = (int) (15 * screenRatioX);
         this.background1.x -= step;   // to move the image to the left some (the basic is 9, in my phone) pixels
         this.background2.x -= step;
 
