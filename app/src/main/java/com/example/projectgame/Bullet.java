@@ -1,6 +1,5 @@
 package com.example.projectgame;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,7 +10,7 @@ public class Bullet {
     Bitmap bullet;
     int width, height;
 
-    // it seems to me for right now, that "newBullet()" from GameView can be here instead
+    // it seems to me for right now, that "newBullet()" from HeavensGameView can be here instead
 
     Bullet(Resources res) {
         this.bullet = BitmapFactory.decodeResource(res, R.drawable.bullet);
@@ -22,14 +21,14 @@ public class Bullet {
         width = width / 4;
         height = height / 4;
 
-        if(GameView.screenRatioX >0) {
+        if(HeavensGameView.screenRatioX >0) {
 
-            width *= GameView.screenRatioX;
-            height *= GameView.screenRatioY;
+            width *= HeavensGameView.screenRatioX;
+            height *= HeavensGameView.screenRatioY;
         }
         else {
-            width *= GameGroundView.screenRatioX;
-            height *= GameGroundView.screenRatioY;
+            width *= GroundGameView.screenRatioX;
+            height *= GroundGameView.screenRatioY;
         }
 
         this.bullet = Bitmap.createScaledBitmap(bullet, width, height, false);  // reforming the image according to the changes i made.

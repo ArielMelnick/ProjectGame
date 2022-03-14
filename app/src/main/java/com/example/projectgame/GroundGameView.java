@@ -13,7 +13,7 @@ import android.view.SurfaceView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameGroundView extends SurfaceView implements Runnable {
+public class GroundGameView extends SurfaceView implements Runnable {
 
     private boolean isPlaying, isGameOver = false;
     private Thread thread;
@@ -25,7 +25,7 @@ public class GameGroundView extends SurfaceView implements Runnable {
     private Robot robot;
     private List<Bullet> bullets;
     private Spikes spikes;
-    private GameGroundActivity activity;
+    private GroundGameActivity activity;
     private Dino dino;
     private int score = 0;
     private SharedPreferences sp;
@@ -33,7 +33,7 @@ public class GameGroundView extends SurfaceView implements Runnable {
     private double increaseSpeed;
 
 
-    public GameGroundView(GameGroundActivity activity, int screenX, int screenY) {
+    public GroundGameView(GroundGameActivity activity, int screenX, int screenY) {
         super(activity);
 
         this.activity = activity;

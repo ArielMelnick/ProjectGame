@@ -14,10 +14,10 @@ public class Flight {
     int x, y;  // x and y are the coordinates (position on the screen) of the airplane.
     int width, height, wingCounter = 0;
     Bitmap flight1, flight2, shoot1, shoot2, shoot3, shoot4, shoot5, dead;
-    private final GameView gameView;
+    private final HeavensGameView heavensGameView;
 
-    Flight(GameView gameView, Resources res) {  // it will get the height of the screen (screenY) and the data of the image of the airplane from the resources (res).
-        this.gameView = gameView;
+    Flight(HeavensGameView heavensGameView, Resources res) {  // it will get the height of the screen (screenY) and the data of the image of the airplane from the resources (res).
+        this.heavensGameView = heavensGameView;
 
         this.flight1 = BitmapFactory.decodeResource(res, R.drawable.fly1);
         this.flight2 = BitmapFactory.decodeResource(res, R.drawable.fly2);
@@ -37,8 +37,8 @@ public class Flight {
         this.width /= 4;  // the image is too big for the screen so i'm making it smaller.
         this.height /= 4;
 
-        this.width = (int) (this.width * GameView.screenRatioX);  // to fit the image to other screens -> in different sizes (screenRatioX and screenRatioY are from GameView).
-        this.height = (int) (this.height * GameView.screenRatioY);
+        this.width = (int) (this.width * HeavensGameView.screenRatioX);  // to fit the image to other screens -> in different sizes (screenRatioX and screenRatioY are from HeavensGameView).
+        this.height = (int) (this.height * HeavensGameView.screenRatioY);
 
         this.flight1 = Bitmap.createScaledBitmap(flight1, width, height, false);   // setting the image size according to the changes i made according to the size of the screen.
         this.flight2 = Bitmap.createScaledBitmap(flight2, width, height, false);
@@ -52,12 +52,12 @@ public class Flight {
         this.dead = Bitmap.createScaledBitmap(dead, width, height, false);
 
 
-        this.x = (int) (64 * GameView.screenRatioX);  // so the airplane will be about 64 pixels from the left of the screen.
+        this.x = (int) (64 * HeavensGameView.screenRatioX);  // so the airplane will be about 64 pixels from the left of the screen.
 
 
     }
 
-    public Bitmap getFlight() {  // gets called in "draw()" in GameView to draw the relevant image.
+    public Bitmap getFlight() {  // gets called in "draw()" in HeavensGameView to draw the relevant image.
 
         // to switch between the images.
         // if the user touches the right side of the screen then getFlight will return an image(one of the stages of the airplane shooting) from this block of code(ends in "return shoot5")
@@ -82,7 +82,7 @@ public class Flight {
 
             shootCounter = 1;
             toShoot--;
-            gameView.newBullet();
+            heavensGameView.newBullet();
             return shoot5;
         }
 

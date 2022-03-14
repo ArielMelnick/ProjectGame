@@ -6,8 +6,10 @@
     <item
 
         android:id="@+id/Settings"
-        android:title="Settings"
-        android:orderInCategory="2"
+        android:title="Statistics"
+        android:orderInCategory="1"
+
+
 
         />
 
@@ -15,12 +17,12 @@
     <item
         android:id="@+id/Contact"
         android:title="Contact"
-        android:orderInCategory="4"
+        android:orderInCategory="2"
         />
     <item
         android:id="@+id/Instructions"
         android:title="Instructions"
-        android:orderInCategory="5"
+        android:orderInCategory="3"
         />
 
 

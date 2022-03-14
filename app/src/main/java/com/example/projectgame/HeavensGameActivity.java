@@ -7,9 +7,9 @@ import android.content.IntentFilter;
 import android.graphics.Point;
 import android.os.Bundle;
 
-public class GameGroundActivity extends AppCompatActivity {
+public class HeavensGameActivity extends AppCompatActivity {
 
-    private GameGroundView gameGroundView;
+    private HeavensGameView heavensGameView;
     private MyBroadcastReceiver mbr;
 
     @Override
@@ -17,24 +17,26 @@ public class GameGroundActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Point point = new Point();
+
+
         getWindowManager().getDefaultDisplay().getSize(point);
 
-        gameGroundView = new GameGroundView(this, point.x, point.y);
+        this.heavensGameView = new HeavensGameView(this, point.x, point.y); // sending the screen size to HeavensGameView
 
-        setContentView(gameGroundView);
 
+        setContentView(this.heavensGameView);
 
     }
 
     protected void onPause() {   // if another activity comes into the foreground onPause is called
         super.onPause();
-        gameGroundView.pause();
+        this.heavensGameView.pause();
     }
 
     @Override
     protected void onResume() {   // if it comes back from another activity to this activity then onResume will be called
         super.onResume();
-        gameGroundView.resume();
+        this.heavensGameView.resume();
 
         mbr = new MyBroadcastReceiver();
         IntentFilter filter = new IntentFilter();

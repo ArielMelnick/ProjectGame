@@ -74,19 +74,19 @@ public class Robot {
         heightDead /= 5;
         heightJump /= 5;
 
-        widthRun *= GameGroundView.screenRatioX;
-        widthDead *= GameGroundView.screenRatioX;
-        widthJump *= GameGroundView.screenRatioX;
+        widthRun *= GroundGameView.screenRatioX;
+        widthDead *= GroundGameView.screenRatioX;
+        widthJump *= GroundGameView.screenRatioX;
 
-        heightRun *= GameGroundView.screenRatioY;
-        heightDead *= GameGroundView.screenRatioY;
-        heightJump *= GameGroundView.screenRatioY;
+        heightRun *= GroundGameView.screenRatioY;
+        heightDead *= GroundGameView.screenRatioY;
+        heightJump *= GroundGameView.screenRatioY;
 
         averageWidth = (widthRun + widthDead + widthJump) / 3;
         averageHeight = (heightRun + heightDead + heightJump) / 3;
 
-        x = (int) (64 * GameGroundView.screenRatioX);
-        y = (int) (665 * GameGroundView.screenRatioY);
+        x = (int) (64 * GroundGameView.screenRatioX);
+        y = (int) (665 * GroundGameView.screenRatioY);
         defaultY = y;
 
     }

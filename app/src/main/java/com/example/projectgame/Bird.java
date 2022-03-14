@@ -3,7 +3,6 @@ package com.example.projectgame;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.Rect;
 
 public class Bird {
@@ -23,8 +22,8 @@ public class Bird {
         width /= 6;
         height /= 6;
 
-        width *= GameView.screenRatioX;
-        height *= GameView.screenRatioY;
+        width *= HeavensGameView.screenRatioX;
+        height *= HeavensGameView.screenRatioY;
 
 
         bird1 = Bitmap.createScaledBitmap(bird1, width, height, false);

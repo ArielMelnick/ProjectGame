@@ -31,8 +31,8 @@ public class Dino {
         width /= 3;
         height /= 3;
 
-        width *= GameGroundView.screenRatioX;
-        height *= GameGroundView.screenRatioY;
+        width *= GroundGameView.screenRatioX;
+        height *= GroundGameView.screenRatioY;
 
         dino1 = Bitmap.createScaledBitmap(dino1, width, height, false);
         dino2 = Bitmap.createScaledBitmap(dino2, width, height, false);
@@ -79,7 +79,7 @@ public class Dino {
     }
 
     public Rect getCollisionShape() {
-        return new Rect((int) (x + 400 * GameGroundView.screenRatioX), (int) (y + 60 * GameGroundView.screenRatioX), x + width, y + height);
+        return new Rect((int) (x + 400 * GroundGameView.screenRatioX), (int) (y + 60 * GroundGameView.screenRatioX), x + width, y + height);
     }
 
 

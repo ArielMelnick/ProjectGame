@@ -16,10 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectGame">
         <activity
-            android:name=".GameGroundActivity"
+            android:name=".GroundGameActivity"
             android:exported="false" />
         <activity
-            android:name=".GameActivity"
+            android:name=".HeavensGameActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.GameActivity" />
         <activity
