@@ -15,16 +15,15 @@
         android:src="@drawable/background" />
 
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/play"
         android:layout_below="@id/tvHeavensHighScore"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
         android:text="Ground And Heavens"
         android:textColor="#ffffff"
-        android:layout_marginTop="40dp"
         android:textSize="48sp" />
 
     <TextView
@@ -56,8 +55,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="6dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="6dp"
         android:text="Heavens High Score:"
         android:textColor="@color/black"
         android:textSize="24sp" />
@@ -86,7 +85,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/ic_baseline_volume_up_24" />
-
 
 
 </RelativeLayout>

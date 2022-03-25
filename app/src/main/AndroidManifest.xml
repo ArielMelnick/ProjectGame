@@ -17,6 +17,7 @@
         android:theme="@style/Theme.ProjectGame">
         <activity
             android:name=".GroundGameActivity"
+            android:screenOrientation="landscape"
             android:exported="false" />
         <activity
             android:name=".HeavensGameActivity"

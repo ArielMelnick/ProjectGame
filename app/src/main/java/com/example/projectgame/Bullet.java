@@ -10,7 +10,6 @@ public class Bullet {
     Bitmap bullet;
     int width, height;
 
-    // it seems to me for right now, that "newBullet()" from HeavensGameView can be here instead
 
     Bullet(Resources res) {
         this.bullet = BitmapFactory.decodeResource(res, R.drawable.bullet);

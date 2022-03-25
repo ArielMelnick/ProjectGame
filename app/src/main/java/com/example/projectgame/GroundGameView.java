@@ -31,6 +31,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
     private SharedPreferences sp;
     private MediaPlayer mp;
     private double increaseSpeed;
+    private SharedPreferences.Editor edit;
 
 
     public GroundGameView(GroundGameActivity activity, int screenX, int screenY) {
@@ -39,6 +40,10 @@ public class GroundGameView extends SurfaceView implements Runnable {
         this.activity = activity;
 
         sp = activity.getSharedPreferences("game", Context.MODE_PRIVATE);
+        edit = sp.edit();
+
+        edit.putInt("timesPlayedGround", sp.getInt("timesPlayedGround", 0) + 1);
+        edit.apply();
 
         mp = MediaPlayer.create(activity, R.raw.shoot);
 
@@ -96,7 +101,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
 
         List<Bullet> trash = new ArrayList<>();
-        trash.clear();
+
 
         for (Bullet bullet : bullets) {
             if (bullet.x > screenX)
@@ -109,6 +114,11 @@ public class GroundGameView extends SurfaceView implements Runnable {
                     dino.x = -600;
                     bullet.x = screenX + 500;
                     dino.wasShot = true;
+
+                    if (sp.getInt("dinosKilled", 0) < 999999999)
+                        edit.putInt("dinosKilled", sp.getInt("dinosKilled", 0) + 1);
+
+                    edit.apply();
                 }
             }
         }
@@ -125,10 +135,8 @@ public class GroundGameView extends SurfaceView implements Runnable {
                 return;
             }
 
-
-
-            dino.speed = (int) (Math.random() * (40 * screenRatioX) + (30 * screenRatioX) +(int)increaseSpeed);
-            dino.x = (int) ((Math.random() * (400) + screenX + 100) * screenRatioX);
+            dino.speed = (int) (Math.random() * (40 * screenRatioX) + (30 * screenRatioX) + (int) increaseSpeed);
+            dino.x = (int) ((Math.random() * (900) + screenX + 100) * screenRatioX);
             dino.y = (int) ((665 * screenRatioY) - (90 * screenRatioX));
             dino.wasShot = false;
         }
@@ -139,7 +147,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
             spikes.x = (int) ((Math.random() * (400) + screenX + 100) * screenRatioX);
             spikes.y = (int) ((665 * screenRatioY) + 170 * screenRatioX);
-            spikes.speed = (int) (22 * screenRatioX) +  (int)increaseSpeed;
+            spikes.speed = (int) (22 * screenRatioX) + (int) increaseSpeed;
 
         }
 
@@ -147,6 +155,8 @@ public class GroundGameView extends SurfaceView implements Runnable {
         if (Rect.intersects(dino.getCollisionShape(), robot.getCollisionShape())) {
             isGameOver = true;
             robot.y = robot.defaultY + 15;
+            edit.putInt("deathsByDino", sp.getInt("deathsByDino", 0) + 1);
+            edit.apply();
             return;
         }
 
@@ -154,6 +164,8 @@ public class GroundGameView extends SurfaceView implements Runnable {
         if (Rect.intersects(spikes.getCollisionShape(), robot.getCollisionShape())) {
             isGameOver = true;
             robot.y = robot.defaultY + 15;
+            edit.putInt("deathsBySpikes", sp.getInt("deathsBySpikes", 0) + 1);
+            edit.apply();
             return;
         }
 
@@ -162,7 +174,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
     public void updateBackground() {
 
-        int step = (int) (22 * screenRatioX) +  (int)increaseSpeed;
+        int step = (int) (22 * screenRatioX) + (int) increaseSpeed;
         background1.x -= step;
         background2.x -= step;
 
@@ -275,7 +287,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
         Bullet bullet = new Bullet(getResources());
         bullet.x = robot.x + robot.averageWidth;
-        bullet.y = (int) ((robot.y + robot.averageHeight / 2 )-30*screenRatioY);
+        bullet.y = (int) ((robot.y + robot.averageHeight / 2) - 30 * screenRatioY);
         bullets.add(bullet);
 
     }
@@ -293,7 +305,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
     public void saveIfHighScore() {
 
         if (sp.getInt("GroundHighScore", 0) < score) {
-            SharedPreferences.Editor edit = sp.edit();
+
             edit.putInt("GroundHighScore", score);  // creating/changing an int variant named "highScore" inside "game.xml" that inside "shared_prefs" directory
             edit.apply();  // To create/change the high score
 

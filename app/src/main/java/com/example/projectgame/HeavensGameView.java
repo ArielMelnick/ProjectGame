@@ -31,6 +31,7 @@ public class HeavensGameView extends SurfaceView implements Runnable {
     private SharedPreferences sp;  // I'm using "SharedPreferences" to store the highest score
     private HeavensGameActivity activity;
     private MediaPlayer mp;
+    private SharedPreferences.Editor edit;
 
     public HeavensGameView(HeavensGameActivity activity, int screenX, int screenY) {
         super(activity);
@@ -38,6 +39,9 @@ public class HeavensGameView extends SurfaceView implements Runnable {
         this.activity = activity;
 
         sp = activity.getSharedPreferences("game", Context.MODE_PRIVATE);  // connecting to the xml file named "game" in SharedPreferences that i created in "MainActivity".
+        edit = sp.edit();
+        edit.putInt("timesPlayedHeavens", sp.getInt("timesPlayedHeavens", 0) + 1);
+        edit.apply();
 
         mp = MediaPlayer.create(activity, R.raw.shoot);
 
@@ -118,6 +122,11 @@ public class HeavensGameView extends SurfaceView implements Runnable {
                     bird.x = -500;  // so the bird will go out of the screen, to the left
                     bullet.x = screenX + 500;  // so the bullet will be out of the screen
                     bird.wasShot = true;
+
+                    if (sp.getInt("birdsKilled", 0) < 999999999)
+                        edit.putInt("birdsKilled", sp.getInt("birdsKilled", 0) + 1);
+
+                    edit.apply();
                 }
             }
         }
@@ -133,6 +142,9 @@ public class HeavensGameView extends SurfaceView implements Runnable {
 
                 if (!(bird.wasShot)) {  // if the bird got out of the screen without getting shoot at so the player had failed and the game will be over
                     isGameOver = true;
+                    edit.putInt("birdPassFails", sp.getInt("birdPassFails", 0) + 1);
+                    edit.apply();
+
                     return;
                 }
 
@@ -146,6 +158,9 @@ public class HeavensGameView extends SurfaceView implements Runnable {
 
             if (Rect.intersects(bird.getCollisionShape(), flight.getCollisionShape())) {  // to check if the bird hit the airplane to end the game
                 isGameOver = true;
+                edit.putInt("birdCrashes", sp.getInt("birdCrashes", 0) + 1);
+                edit.apply();
+
                 return;
 
             }
@@ -282,7 +297,7 @@ public class HeavensGameView extends SurfaceView implements Runnable {
     public void saveIfHighScore() {
 
         if (sp.getInt("HeavensHighScore", 0) < score) {
-            SharedPreferences.Editor edit = sp.edit();
+
             edit.putInt("HeavensHighScore", score);  // creating/changing an int variant named "highScore" inside "game.xml" that inside "shared_prefs" directory
             edit.apply();  // To create/change the high score
 

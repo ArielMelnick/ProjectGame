@@ -8,10 +8,13 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvHeavensHighScore;
     private TextView tvGroundHighScore;
     private SharedPreferences sp;
-    private Dialog instructionsDialog;
     private SharedPreferences.Editor editor;
     private MyBroadcastReceiver mbr;
 
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         volume = findViewById(R.id.volume);
 
-        if (isMute)  // I'm putting those "if" statements also in here so if the player would return to the game after he closed it, it will just like it was when he exited the game.
+        if (isMute)  // I'm putting those "if" statements also in here so if the player would return to the game after he closed it, it will be just like it was when he exited the game.
             volume.setImageResource(R.drawable.ic_baseline_volume_off_24);
         else
             volume.setImageResource(R.drawable.ic_baseline_volume_up_24);
@@ -101,23 +103,68 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "0546306568"));
             startActivity(intent);
         }
-        if (id == R.id.Instructions) {
+
+        if (id == R.id.Instructions)
             createInstructionsDialog();
 
-        }
+        if (id == R.id.Statistics)
+            createStatisticsDialog();
+
         return true;
 
     }
 
     public void createInstructionsDialog() {
 
-        instructionsDialog = new Dialog(this);
+        Dialog instructionsDialog = new Dialog(this);
 
         instructionsDialog.setContentView(R.layout.instructions_dialog_layout);
-        instructionsDialog.setTitle("Instructions");
         instructionsDialog.setCancelable(true);
 
         instructionsDialog.show();
+
+    }
+
+    public void createStatisticsDialog() {
+        TextView timesPlayedGround, dinosKilled, deathsByDino, deathsBySpikes, timesPlayedHeavens, birdsKilled, birdPassFails, birdCrashes;
+        Dialog statisticsDialog = new Dialog(this);
+        statisticsDialog.setContentView(R.layout.statistics_dialog_layout);
+        WindowManager.LayoutParams wmlp = new WindowManager.LayoutParams();
+        wmlp.width = 1600;
+        wmlp.height = 700;
+        statisticsDialog.getWindow().setAttributes(wmlp);
+        statisticsDialog.setCancelable(true);
+
+        timesPlayedGround = statisticsDialog.findViewById(R.id.timesPlayedGround);
+        dinosKilled = statisticsDialog.findViewById(R.id.dinosKilled);
+        deathsByDino = statisticsDialog.findViewById(R.id.deathsByDino);
+        deathsBySpikes = statisticsDialog.findViewById(R.id.deathsBySpikes);
+        timesPlayedHeavens = statisticsDialog.findViewById(R.id.timesPlayedHeavens);
+        birdsKilled = statisticsDialog.findViewById(R.id.birdsKilled);
+        birdPassFails = statisticsDialog.findViewById(R.id.birdPassFails);
+        birdCrashes = statisticsDialog.findViewById(R.id.birdCrashes);
+
+
+        timesPlayedGround.setText("Times played ground :  " + sp.getInt("timesPlayedGround", 0));
+
+        if (sp.getInt("dinosKilled", 0) == 999999999)
+            dinosKilled.setText("Dinos killed : " + 999999999 + "+" + "\n you are playing to much!");
+        else
+            dinosKilled.setText("Dinos killed : " + sp.getInt("dinosKilled", 0));
+
+        deathsByDino.setText("Deaths by dinos : " + sp.getInt("deathsByDino", 0));
+        deathsBySpikes.setText("Deaths by spikes : " + sp.getInt("deathsBySpikes", 0));
+        timesPlayedHeavens.setText("Times played heavens : " + sp.getInt("timesPlayedHeavens", 0));
+
+        if (sp.getInt("birdsKilled", 0) == 999999999)
+            dinosKilled.setText("Birds killed : " + 999999999 + "+" + "\n you are playing to much!");
+        else
+            birdsKilled.setText("Birds Killed : " + sp.getInt("birdsKilled", 0));
+
+        birdPassFails.setText("Bird passed fails : " + sp.getInt("birdPassFails", 0));
+        birdCrashes.setText("Bird Crashes fails : " + sp.getInt("birdCrashes", 0));
+
+        statisticsDialog.show();
 
     }
 
@@ -135,9 +182,7 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(mbr, filter);
 
-
     }
-
 
 
     @Override

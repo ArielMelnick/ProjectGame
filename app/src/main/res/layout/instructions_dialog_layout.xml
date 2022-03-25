@@ -23,7 +23,5 @@
             android:textSize="20sp" />
 
 
-
-
     </ScrollView>
 </LinearLayout>
