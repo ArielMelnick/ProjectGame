@@ -7,11 +7,16 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
+import androidx.annotation.RequiresApi;
+
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 public class GroundGameView extends SurfaceView implements Runnable {
 
@@ -33,7 +38,9 @@ public class GroundGameView extends SurfaceView implements Runnable {
     private double increaseSpeed;
     private SharedPreferences.Editor edit;
 
-
+    /**
+     * To create a game
+     */
     public GroundGameView(GroundGameActivity activity, int screenX, int screenY) {
         super(activity);
 
@@ -228,7 +235,6 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
             for (Bullet bullet : bullets) {
                 canvas.drawBitmap(bullet.bullet, bullet.x, bullet.y, paint);
-
             }
 
             getHolder().unlockCanvasAndPost(canvas);
@@ -273,7 +279,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
                 if (event.getX() < screenX / 2) {
                     if (robot.y == robot.defaultY)
                         robot.toJump = true;
-                } else
+                } else if (!isGameOver)
                     newBullet();
                 break;
         }
@@ -292,11 +298,13 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
     }
 
+
     public void waitBeforeExiting() {
 
         try {
-            Thread.sleep(3000);
             activity.finish();
+            Thread.sleep(3000);
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

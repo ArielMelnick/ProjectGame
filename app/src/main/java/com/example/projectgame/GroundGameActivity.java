@@ -42,4 +42,25 @@ public class GroundGameActivity extends AppCompatActivity {
         filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         registerReceiver(mbr, filter);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
 }

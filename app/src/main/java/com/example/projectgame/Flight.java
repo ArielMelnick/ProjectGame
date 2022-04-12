@@ -16,7 +16,7 @@ public class Flight {
     Bitmap flight1, flight2, shoot1, shoot2, shoot3, shoot4, shoot5, dead;
     private final HeavensGameView heavensGameView;
 
-    Flight(HeavensGameView heavensGameView, Resources res) {  // it will get the height of the screen (screenY) and the data of the image of the airplane from the resources (res).
+    Flight(HeavensGameView heavensGameView, Resources res) {  // it will get the data of the image of the airplane from the resources (res).
         this.heavensGameView = heavensGameView;
 
         this.flight1 = BitmapFactory.decodeResource(res, R.drawable.fly1);
@@ -57,6 +57,9 @@ public class Flight {
 
     }
 
+    /**
+     * gets called in "draw()" in HeavensGameView to draw the relevant image.
+     */
     public Bitmap getFlight() {  // gets called in "draw()" in HeavensGameView to draw the relevant image.
 
         // to switch between the images.
