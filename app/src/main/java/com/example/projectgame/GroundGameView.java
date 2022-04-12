@@ -84,10 +84,10 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
         while (isPlaying) {
             update();
-            if (increaseSpeed < 10000)
+            if (increaseSpeed < 1000)
                 increaseSpeed += 0.01;
             else
-                increaseSpeed = 10000;
+                increaseSpeed = 1000;
             draw();
             sleep();
         }
@@ -115,7 +115,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
         for (Bullet bullet : bullets) {
             if (bullet.x > screenX)
                 trash.add(bullet);
-            bullet.x += 50 * screenRatioX;
+            bullet.x += (50 * screenRatioX);
 
             if (dino.x < screenX - 400 && dino.x > 0) {  // So the dino won't be shot outside of the screen
                 if (Rect.intersects(dino.getCollisionShape(), bullet.getCollisionShape())) {
@@ -146,7 +146,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
             dino.speed = (int) (Math.random() * (40 * screenRatioX) + (30 * screenRatioX) + (int) increaseSpeed);
             dino.x = (int) ((Math.random() * (900) + screenX + 100) * screenRatioX);
-            dino.y = (int) ((665 * screenRatioY) - (90 * screenRatioX));
+            dino.y = (int) ((665 * screenRatioY) - (90 * screenRatioY));
             dino.wasShot = false;
         }
 
@@ -155,7 +155,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
         if (spikes.x + spikes.width < 0) {
 
             spikes.x = (int) ((Math.random() * (400) + screenX + 100) * screenRatioX);
-            spikes.y = (int) ((665 * screenRatioY) + 170 * screenRatioX);
+            spikes.y = (int) ((665 * screenRatioY) + 150 * screenRatioY);
             spikes.speed = (int) (22 * screenRatioX) + (int) increaseSpeed;
 
         }
@@ -163,7 +163,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
         if (Rect.intersects(dino.getCollisionShape(), robot.getCollisionShape())) {
             isGameOver = true;
-            robot.y = robot.defaultY + 15;
+            robot.y = robot.defaultY + (int) (15 * screenRatioY);
             edit.putInt("deathsByDino", sp.getInt("deathsByDino", 0) + 1);
             edit.apply();
             return;
@@ -281,7 +281,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
                 if (event.getX() < screenX / 2) {
                     if (robot.y == robot.defaultY)
                         robot.toJump = true;
-                } else if (!isGameOver)
+                } else if (!isGameOver && dino.x < screenX)
                     newBullet();
                 break;
         }
