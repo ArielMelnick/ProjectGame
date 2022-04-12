@@ -14,6 +14,7 @@ import android.view.SurfaceView;
 import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 
@@ -64,7 +65,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
         this.background2.x = screenX - 1;
 
-        robot = new Robot(getResources());
+        robot = new Robot(this, getResources());
 
         this.paint = new Paint();
         this.paint.setTextSize(130);  //  I'm using "paint" to show the score
@@ -235,9 +236,13 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
             canvas.drawBitmap(robot.getRobot(), robot.x, robot.y, paint);
 
+            //try {
             for (Bullet bullet : bullets) {
                 canvas.drawBitmap(bullet.bullet, bullet.x, bullet.y, paint);
             }
+            //}catch (ConcurrentModificationException c){
+            //bullets.iterator().next();
+            //}
 
             getHolder().unlockCanvasAndPost(canvas);
 
@@ -275,15 +280,13 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
     public boolean onTouchEvent(MotionEvent event) {
 
-        switch (event.getAction()) {
-
-            case MotionEvent.ACTION_UP:
-                if (event.getX() < screenX / 2) {
-                    if (robot.y == robot.defaultY)
-                        robot.toJump = true;
-                } else if (!isGameOver && dino.x < screenX)
-                    newBullet();
-                break;
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            if (event.getX() < screenX / 2) {
+                if (robot.y == robot.defaultY)
+                    robot.toJump = true;
+            } else if (dino.x < screenX) //if (!isGameOver && dino.x < screenX)
+                //newBullet();
+                robot.toShoot = true;
         }
         return true;
     }

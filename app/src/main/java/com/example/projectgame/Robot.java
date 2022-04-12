@@ -12,12 +12,16 @@ public class Robot {
     Bitmap[] jump = new Bitmap[11];
     int x, y, defaultY;
     int widthRun, widthDead, widthJump, heightRun, heightDead, heightJump, averageWidth, averageHeight;
+    boolean toShoot = false;
+    private GroundGameView ggv;
 
     int runCounter = 0, deadCounter = 0, jumpCounter = 0;
     Boolean toJump = false, toDie = false;
 
 
-    Robot(Resources res) {
+    Robot(GroundGameView ggv, Resources res) {
+        this.ggv = ggv;
+
 
         run[1] = BitmapFactory.decodeResource(res, R.drawable.robot_run_1);
         run[2] = BitmapFactory.decodeResource(res, R.drawable.robot_run_2);
@@ -107,6 +111,11 @@ public class Robot {
                 return jump[10];
             }
 
+            if (toShoot) {
+                toShoot = false;
+                ggv.newBullet();
+            }
+
             return jump[jumpCounter];
 
         }
@@ -117,6 +126,12 @@ public class Robot {
             runCounter = 0;
             return run[9];
         }
+
+        if (toShoot) {
+            toShoot = false;
+            ggv.newBullet();
+        }
+
         return run[runCounter];
 
     }
