@@ -284,8 +284,8 @@ public class GroundGameView extends SurfaceView implements Runnable {
             if (event.getX() < screenX / 2) {
                 if (robot.y == robot.defaultY)
                     robot.toJump = true;
-            } else if (dino.x < screenX) //if (!isGameOver && dino.x < screenX)
-                //newBullet();
+            } else if (dino.x < screenX) // or: if (!isGameOver && dino.x < screenX) with newBullet(); from here. (Concurrent modification exception)
+
                 robot.toShoot = true;
         }
         return true;
@@ -308,7 +308,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
         try {
             activity.finish();
-            Thread.sleep(3000);
+            Thread.sleep(2000);
 
         } catch (InterruptedException e) {
             e.printStackTrace();

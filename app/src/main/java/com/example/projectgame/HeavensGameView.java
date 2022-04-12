@@ -243,7 +243,7 @@ public class HeavensGameView extends SurfaceView implements Runnable {
     public void waitBeforeExiting() {
 
         try {
-            Thread.sleep(3000);
+            Thread.sleep(2000);
             activity.finish();
         } catch (InterruptedException e) {
             e.printStackTrace();
