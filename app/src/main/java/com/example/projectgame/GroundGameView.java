@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class GroundGameView extends SurfaceView implements Runnable {
 
     private boolean isPlaying, isGameOver = false;
@@ -85,7 +84,10 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
         while (isPlaying) {
             update();
-            increaseSpeed += 0.01;
+            if (increaseSpeed < 10000)
+                increaseSpeed += 0.01;
+            else
+                increaseSpeed = 10000;
             draw();
             sleep();
         }
