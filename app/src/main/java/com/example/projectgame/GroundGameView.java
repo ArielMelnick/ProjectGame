@@ -77,7 +77,6 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
         dino = new Dino(getResources());
 
-
     }
 
     @Override
@@ -173,7 +172,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
         if (Rect.intersects(spikes.getCollisionShape(), robot.getCollisionShape())) {
             isGameOver = true;
-            robot.y = robot.defaultY + 15;
+            robot.y = robot.defaultY + (int) (15 * screenRatioY);
             edit.putInt("deathsBySpikes", sp.getInt("deathsBySpikes", 0) + 1);
             edit.apply();
             return;
@@ -281,7 +280,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
     public boolean onTouchEvent(MotionEvent event) {
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            if (event.getX() < screenX / 2) {
+            if (event.getX() < screenX / 2f) {
                 if (robot.y == robot.defaultY)
                     robot.toJump = true;
             } else if (dino.x < screenX) // or: if (!isGameOver && dino.x < screenX) with newBullet(); from here. (Concurrent modification exception)

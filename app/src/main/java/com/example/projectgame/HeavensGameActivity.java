@@ -10,7 +10,6 @@ import android.os.Bundle;
 public class HeavensGameActivity extends AppCompatActivity {
 
     private HeavensGameView heavensGameView;
-    private MyBroadcastReceiver mbr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +37,6 @@ public class HeavensGameActivity extends AppCompatActivity {
         super.onResume();
         this.heavensGameView.resume();
 
-        mbr = new MyBroadcastReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_POWER_CONNECTED);
-        filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
-        registerReceiver(mbr, filter);
+
     }
 }

@@ -1,13 +1,21 @@
 package com.example.projectgame;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.service.notification.NotificationListenerService;
 import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +24,11 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
     private MyBroadcastReceiver mbr;
+    public static boolean isOn;
+
 
 
     @Override
@@ -86,6 +101,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, GroundGameActivity.class));
             }
         });
+
+
+        Intent notifyIntent = new Intent(this,MyBroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),1000*60*60*24, pendingIntent); // send the notification 24 hours after the last time the user entered the app
+
+
+
+
+
 
     }
 
@@ -172,22 +198,44 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+
+
         tvHeavensHighScore.setText("Heavens High Score: " + sp.getInt("HeavensHighScore", 0));
         tvGroundHighScore.setText("Ground High Score: " + sp.getInt("GroundHighScore", 0));
 
-        mbr = new MyBroadcastReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_POWER_CONNECTED);
-        filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
-        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
-        registerReceiver(mbr, filter);
+
+
+
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+
+
+    }
 
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(mbr);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isOn = true;
+
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        isOn = false;
+
     }
 }

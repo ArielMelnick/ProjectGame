@@ -10,7 +10,7 @@ import android.os.Bundle;
 public class GroundGameActivity extends AppCompatActivity {
 
     private GroundGameView groundGameView;
-    private MyBroadcastReceiver mbr;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +36,7 @@ public class GroundGameActivity extends AppCompatActivity {
         super.onResume();
         groundGameView.resume();
 
-        mbr = new MyBroadcastReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_POWER_CONNECTED);
-        filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
-        registerReceiver(mbr, filter);
+
     }
 
     @Override
