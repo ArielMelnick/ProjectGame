@@ -103,10 +103,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Intent notifyIntent = new Intent(this,MyBroadcastReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),1000*60*60*24, pendingIntent); // send the notification 24 hours after the last time the user entered the app
+
 
 
 
@@ -199,10 +196,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-
-
         tvHeavensHighScore.setText("Heavens High Score: " + sp.getInt("HeavensHighScore", 0));
         tvGroundHighScore.setText("Ground High Score: " + sp.getInt("GroundHighScore", 0));
+
+        mbr = new MyBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_POWER_CONNECTED);
+        filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(mbr, filter);
 
 
 
