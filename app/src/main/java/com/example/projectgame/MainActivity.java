@@ -6,6 +6,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -42,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     public static boolean isOn;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        createNotificationChannel();
 
         tvHeavensHighScore = findViewById(R.id.tvHeavensHighScore);
         tvGroundHighScore = findViewById(R.id.tvGroundHighScore);
@@ -102,12 +103,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = new Intent(this, MyBroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
-
-
-
-
-
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        am.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+(1000*60*60*24),(1000*60*60*24), pendingIntent );
 
 
     }
@@ -191,6 +191,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "myChannel";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("myChannel", name, importance);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
 
     @Override
     protected void onResume() {
@@ -199,15 +210,12 @@ public class MainActivity extends AppCompatActivity {
         tvHeavensHighScore.setText("Heavens High Score: " + sp.getInt("HeavensHighScore", 0));
         tvGroundHighScore.setText("Ground High Score: " + sp.getInt("GroundHighScore", 0));
 
-        mbr = new MyBroadcastReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_POWER_CONNECTED);
-        filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
-        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
-        registerReceiver(mbr, filter);
-
-
-
+       // mbr = new MyBroadcastReceiver();
+       // IntentFilter filter = new IntentFilter();
+        //filter.addAction(Intent.ACTION_POWER_CONNECTED);
+        //filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        //filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+       // registerReceiver(mbr, filter);
 
 
     }
@@ -215,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
 
 
     }
