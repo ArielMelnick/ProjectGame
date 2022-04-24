@@ -30,11 +30,15 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                 .setContentText("Enter to the game!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true);
+
+
                 //.setContentIntent(pendingIntent);
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
 
-        notificationManagerCompat.notify(0, builder.build());
+        if(!MainActivity.isOn) {
+            notificationManagerCompat.notify(0, builder.build());
+        }
 
 
 
