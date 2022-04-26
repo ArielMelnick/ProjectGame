@@ -16,6 +16,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
        // if(intent.getAction().equals(Intent.ACTION_POWER_CONNECTED))
             //Toast.makeText(context,"you shouldn't connect your phone while you are playing, it is dangerous! " , Toast.LENGTH_LONG).show();
 
@@ -29,7 +30,8 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                 .setContentTitle("Ground and Heavens")
                 .setContentText("Enter to the game!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setAutoCancel(true);
+                .setAutoCancel(true)
+                .setOnlyAlertOnce(true);
 
 
                 //.setContentIntent(pendingIntent);

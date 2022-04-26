@@ -39,14 +39,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvGroundHighScore;
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
-    private MyBroadcastReceiver mbr;
     public static boolean isOn;
+    //private MyBroadcastReceiver mbr;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         setContentView(R.layout.activity_main);
 
