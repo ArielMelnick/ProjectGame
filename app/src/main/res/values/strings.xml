@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ProjectGame</string>
+
+    <string name="my_formatted_text">
+    <font color="#A52A2A">Ground</font>
+        <font color = "#FFFFFF">And</font>
+        <font color="#0000FF">Heavens</font>
+</string>
 </resources>

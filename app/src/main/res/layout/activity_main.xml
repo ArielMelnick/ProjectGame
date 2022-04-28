@@ -5,18 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    
+    android:background="@drawable/activity_main_background"
+
 
     tools:context=".MainActivity">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-
-
-
-        android:src="@drawable/background" />
 
 
     <TextView
@@ -26,9 +18,17 @@
         android:layout_below="@id/tvHeavensHighScore"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:text="Ground And Heavens"
-        android:textColor="#ffffff"
+        android:elevation="4dp"
+        android:text="@string/my_formatted_text"
         android:textSize="48sp" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/bird1"
+        android:layout_marginRight="20dp"/>
 
     <TextView
         android:id="@+id/play"
@@ -42,6 +42,22 @@
         android:textSize="64sp"
         android:textStyle="bold" />
 
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="50dp"
+        android:layout_toLeftOf="@+id/play"
+        android:src="@drawable/fly1" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="50dp"
+        android:layout_toRightOf="@+id/playOnGround"
+        android:src="@drawable/robot_turned" />
+
     <TextView
         android:id="@+id/playOnGround"
         android:layout_width="wrap_content"
@@ -53,6 +69,15 @@
         android:textColor="#000000"
         android:textSize="64sp"
         android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/dino_turned"
+        android:layout_marginLeft="20dp"
+
+        />
 
     <TextView
         android:id="@+id/tvHeavensHighScore"
