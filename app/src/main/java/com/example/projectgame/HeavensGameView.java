@@ -165,6 +165,9 @@ public class HeavensGameView extends SurfaceView implements Runnable {
 
             }
         }
+
+
+
     }
 
     public void updateBackground() {
@@ -183,6 +186,14 @@ public class HeavensGameView extends SurfaceView implements Runnable {
     }
 
     public void updateFlight() {
+
+        if(sp.getBoolean("oneHandGameMode", false)) {
+            if (HeavensGameActivity.deltaz > 7)
+                this.flight.isGoingUp = true;
+            else
+                this.flight.isGoingUp = false;
+        }
+
 
         if (this.flight.isGoingUp)
             this.flight.y -= (int) (20 * screenRatioY);  // to make the airplane go up
@@ -266,8 +277,10 @@ public class HeavensGameView extends SurfaceView implements Runnable {
         switch (event.getAction()) {  // to check what happened, in this case to check whether the user is clicking on the screen (MotionEvent.ACTION_DOWN) or he released his finger from the screen (MotionEvent.ACTION_UP) so i will be able to act accordingly
 
             case MotionEvent.ACTION_DOWN:  // ACTION_DOWN is since the user touched the screen until he release his finger from the screen
-                if (event.getX() < screenX / 2)  // if the user touches the left side of the screen the airplane would go up
-                    this.flight.isGoingUp = true;  // used in "update()"
+                if(!sp.getBoolean("oneHandGameMode", false)) {
+                    if (event.getX() < screenX / 2)  // if the user touches the left side of the screen the airplane would go up
+                        this.flight.isGoingUp = true;  // used in "update()"
+                }
                 break;
 
             case MotionEvent.ACTION_UP:

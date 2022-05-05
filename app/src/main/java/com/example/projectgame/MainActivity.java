@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu, menu);
+        menu.findItem(R.id.gameMode).setChecked(sp.getBoolean("oneHandGameMode", false));
         return true;
 
     }
@@ -131,6 +132,17 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.Statistics)
             createStatisticsDialog();
+
+        if(id == R.id.gameMode){
+
+            boolean isChecked = !item.isChecked();
+            item.setChecked(isChecked);
+            editor = sp.edit();
+            editor.putBoolean("oneHandGameMode", item.isChecked());
+            editor.apply();
+
+
+        }
 
         return true;
 
