@@ -1,27 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical">
 
-    <ScrollView
+    android:scrollbars="vertical">
+
+    <LinearLayout
         android:id="@+id/SCROLLER_ID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
-            android:text="Heavens Game: \n When you tap and hold the left side of the screen the airplane goes up, and when you release your finger from the screen the airplane goes down. \n \n When you tap the right side of the screen, the airplane shoots. \n\n You can't let the birds pass the airplane and you can't let the birds touch the airplane, if you do though, you will lose.  \n\n Your goal is to kill as many birds as you can. \n\n Ground Game: \n When you tap the the left side of the screen the robot jumps. \n When you tap the right side of the screen the robot shoots. \n\n You need to jump above the spikes and to shoot the dinos, if you touch either of them you lose. \n\n Your goal is to kill as many dinos as you can.  "
+            android:text=" Heavens Game Instructions:"
             android:textAlignment="center"
             android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:text="When you tap and hold the left side of the screen the airplane goes up, and when you release your finger from the screen the airplane goes down. \n\n When you tap the right side of the screen, the airplane shoots. \n\n You can't let the birds pass the airplane and you can't let the birds touch the airplane, if you do though, you will lose. \n\n For your convenience, you can change the mode of the game to 'one hand mode' (which means you can move the airplane up and down by slightly rotating your device towards yourself and against yourself) via the menu.   \n\n Your goal is to kill as many birds as you can."
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:paddingHorizontal="20dp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:text="Ground Game Instructions:"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_marginTop="40dp"/>
+
+        <TextView
+            android:id="@+id/tv4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:text="When you tap the the left side of the screen the robot jumps. \n When you tap the right side of the screen the robot shoots. \n\n You need to jump above the spikes and to shoot the dinos, if you touch either of them you lose. \n\n Your goal is to kill as many dinos as you can.    "
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:paddingHorizontal="20dp"
             android:textSize="20sp" />
 
 
-    </ScrollView>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

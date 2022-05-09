@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         am.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+(1000*60*60*24),(1000*60*60*24), pendingIntent );
 
 
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -165,7 +166,9 @@ public class MainActivity extends AppCompatActivity {
         statisticsDialog.setContentView(R.layout.statistics_dialog_layout);
         WindowManager.LayoutParams wmlp = new WindowManager.LayoutParams();
         wmlp.width = 1600;
-        wmlp.height = 700;
+        wmlp.height =WindowManager.LayoutParams.WRAP_CONTENT;
+
+
         statisticsDialog.getWindow().setAttributes(wmlp);
         statisticsDialog.setCancelable(true);
 
