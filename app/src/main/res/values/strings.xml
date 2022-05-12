@@ -2,12 +2,7 @@
     <string name="app_name">ProjectGame</string>
 
     <string name="game_name">
-    <font color="#A52A2A">Ground</font>
-        <font color="#FFFFFF">And</font>
-        <font color="#0000FF">Heavens</font>
-</string>
-
-
+    <font color="#A52A2A">Ground </font>  <font color="#FFFFFF">And </font>  <font color="#0000FF">Heavens </font>  </string>
 
 
 </resources>

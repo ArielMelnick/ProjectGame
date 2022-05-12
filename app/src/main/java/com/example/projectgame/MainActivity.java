@@ -106,8 +106,7 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+(1000*60*60*24), pendingIntent );
-
+        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000 * 60 * 60 * 24), pendingIntent);
 
 
     }
@@ -134,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.Statistics)
             createStatisticsDialog();
 
-        if(id == R.id.gameMode){
+        if (id == R.id.gameMode) {
 
             boolean isChecked = !item.isChecked();
             item.setChecked(isChecked);
@@ -166,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         statisticsDialog.setContentView(R.layout.statistics_dialog_layout);
         WindowManager.LayoutParams wmlp = new WindowManager.LayoutParams();
         wmlp.width = 1600;
-        wmlp.height =WindowManager.LayoutParams.WRAP_CONTENT;
+        wmlp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
 
         statisticsDialog.getWindow().setAttributes(wmlp);
@@ -224,12 +223,12 @@ public class MainActivity extends AppCompatActivity {
         tvHeavensHighScore.setText("Heavens High Score: " + sp.getInt("HeavensHighScore", 0));
         tvGroundHighScore.setText("Ground High Score: " + sp.getInt("GroundHighScore", 0));
 
-       // mbr = new MyBroadcastReceiver();
-       // IntentFilter filter = new IntentFilter();
+        // mbr = new MyBroadcastReceiver();
+        // IntentFilter filter = new IntentFilter();
         //filter.addAction(Intent.ACTION_POWER_CONNECTED);
         //filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         //filter.addAction(Intent.ACTION_BATTERY_CHANGED);
-       // registerReceiver(mbr, filter);
+        // registerReceiver(mbr, filter);
 
 
     }
@@ -237,7 +236,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
 
 
     }
