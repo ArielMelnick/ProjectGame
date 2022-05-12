@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-        am.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+(1000*60*60*24),(1000*60*60*24), pendingIntent );
+        am.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+(1000*60*60*24), pendingIntent );
 
 
 

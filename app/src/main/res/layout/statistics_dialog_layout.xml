@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:text="Times played ground :"
-            android:textColor="@color/black"
+            android:textColor="#A52A2A"
+
             android:textSize="18sp" />
 
         <TextView
@@ -31,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:text="Dinos killed :"
-            android:textColor="@color/black"
+            android:textColor="#A52A2A"
             android:textSize="18sp" />
 
         <TextView
@@ -40,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:text="Deaths by dinos :"
-            android:textColor="@color/black"
+            android:textColor="#A52A2A"
             android:textSize="18sp" />
 
         <TextView
@@ -48,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Deaths by spikes :"
-            android:textColor="@color/black"
+            android:textColor="#A52A2A"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -65,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:text="Times played heavens :"
-            android:textColor="@color/black"
+            android:textColor="#0000FF"
             android:textSize="18sp" />
 
         <TextView
@@ -74,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:text="Birds Killed :"
-            android:textColor="@color/black"
+            android:textColor="#0000FF"
             android:textSize="18sp" />
 
         <TextView
@@ -83,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:text="Bird passed fails :"
-            android:textColor="@color/black"
+            android:textColor="#0000FF"
             android:textSize="18sp" />
 
         <TextView
@@ -91,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bird Crashes fails :"
-            android:textColor="@color/black"
+            android:textColor="#0000FF"
             android:textSize="18sp" />
 
     </LinearLayout>

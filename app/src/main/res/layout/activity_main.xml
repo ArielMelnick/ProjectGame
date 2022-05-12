@@ -6,8 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/activity_main_background"
-
-
     tools:context=".MainActivity">
 
 
@@ -18,7 +16,6 @@
         android:layout_below="@id/tvHeavensHighScore"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:elevation="4dp"
         android:text="@string/game_name"
         android:textSize="48sp" />
 
@@ -27,8 +24,8 @@
         android:layout_height="75dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/bird1"
-        android:layout_marginEnd="20dp"/>
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/bird1" />
 
     <TextView
         android:id="@+id/play"
@@ -88,7 +85,7 @@
         android:layout_marginTop="6dp"
         android:text="Heavens High Score:"
         android:textColor="@color/black"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/tvGroundHighScore"
@@ -100,13 +97,13 @@
 
         android:text="Ground High Score:"
         android:textColor="@color/black"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
 
     <ImageView
         android:id="@+id/volume"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="16dp"

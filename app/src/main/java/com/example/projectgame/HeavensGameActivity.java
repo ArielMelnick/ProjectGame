@@ -3,8 +3,6 @@ package com.example.projectgame;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
