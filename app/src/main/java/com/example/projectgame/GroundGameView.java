@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorSpace;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.MediaPlayer;
@@ -12,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 import androidx.annotation.RequiresApi;
+import androidx.vectordrawable.graphics.drawable.ArgbEvaluator;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
@@ -84,10 +86,8 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
         while (isPlaying) {
             update();
-            if (increaseSpeed < 1000)
-                increaseSpeed += 0.01;
-            else
-                increaseSpeed = 1000;
+
+
             draw();
             sleep();
         }
@@ -178,6 +178,11 @@ public class GroundGameView extends SurfaceView implements Runnable {
             return;
         }
 
+        if (increaseSpeed < 1000)
+            increaseSpeed += 0.01;
+        else
+            increaseSpeed = 1000;
+
 
     }
 
@@ -204,6 +209,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
             canvas.drawBitmap(background2.background, background2.x, background2.y, paint);
 
+            paint.setColor(Color.parseColor("#A52A2A"));
             canvas.drawText(score + "", screenX / 2f, 160 * screenRatioY, paint);  // draw the score of the player
 
             canvas.drawBitmap(spikes.getSpikes(), spikes.x, spikes.y, paint);

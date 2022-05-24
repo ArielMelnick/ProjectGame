@@ -215,6 +215,7 @@ public class HeavensGameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(this.background1.background, this.background1.x, this.background1.y, this.paint);   // the x and the y are the top left coordinates of the image
             canvas.drawBitmap(this.background2.background, this.background2.x, this.background2.y, this.paint);
 
+            paint.setColor(Color.parseColor("#0000FF"));
             canvas.drawText(score + "", screenX / 2f, 160 * screenRatioY, paint);  // draw the score of the player
 
             if (isGameOver) {

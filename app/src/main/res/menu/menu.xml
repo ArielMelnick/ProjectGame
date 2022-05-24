@@ -23,14 +23,12 @@
         android:title="Instructions" />
     <item
         android:id="@+id/gameMode"
-        android:title="Heavens One Hand Game Mode"
-        android:orderInCategory="4"
         android:checkable="true"
+        android:orderInCategory="4"
+        android:title="Heavens One Hand Game Mode"
 
 
-
-    />
-
+        />
 
 
 </menu>

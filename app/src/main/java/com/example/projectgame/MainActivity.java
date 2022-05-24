@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvGroundHighScore;
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
-    public static boolean isOn;
+    //public static boolean isOn;
     //private MyBroadcastReceiver mbr;
 
 
@@ -51,12 +51,17 @@ public class MainActivity extends AppCompatActivity {
 
         createNotificationChannel();
 
-        tvHeavensHighScore = findViewById(R.id.tvHeavensHighScore);
-        tvGroundHighScore = findViewById(R.id.tvGroundHighScore);
+        init();
 
-        sp = getSharedPreferences("game", MODE_PRIVATE);
+        setVolume();
 
+        setPlayButtons();
 
+        setNotificationAlarm();
+
+    }
+
+    public void setVolume() {
         isMute = sp.getBoolean("isMute", false);
 
         volume = findViewById(R.id.volume);
@@ -85,6 +90,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void init() {
+
+        tvHeavensHighScore = findViewById(R.id.tvHeavensHighScore);
+        tvGroundHighScore = findViewById(R.id.tvGroundHighScore);
+
+        sp = getSharedPreferences("game", MODE_PRIVATE);
+    }
+
+    public void setPlayButtons() {
+
 
         findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
 
@@ -102,13 +119,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void setNotificationAlarm() {
+
         Intent intent = new Intent(this, MyBroadcastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000 * 60 * 60 * 24), pendingIntent);
-
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -249,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        isOn = true;
+        //isOn = true;
 
 
     }
@@ -257,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        isOn = false;
+        //isOn = false;
 
     }
 }
