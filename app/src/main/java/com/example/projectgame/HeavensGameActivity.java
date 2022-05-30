@@ -14,7 +14,7 @@ public class HeavensGameActivity extends AppCompatActivity implements SensorEven
 
     private HeavensGameView heavensGameView;
     private SensorManager senSensorManager;
-    public static float deltax = 0, deltay = 0, deltaz = 0;
+    public static float deltaz = 0;
 
 
     @Override
@@ -54,8 +54,6 @@ public class HeavensGameActivity extends AppCompatActivity implements SensorEven
         Sensor mySensor = event.sensor;
 
         if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            deltax = event.values[0];
-            deltay = event.values[1];
             deltaz = event.values[2];
         }
 

@@ -38,7 +38,7 @@ public class HeavensGameView extends SurfaceView implements Runnable {
 
         this.activity = activity;
 
-        sp = activity.getSharedPreferences("game", Context.MODE_PRIVATE);  // connecting to the xml file named "game" in SharedPreferences that i created in "MainActivity".
+        sp = activity.getSharedPreferences("game", Context.MODE_PRIVATE);  // connecting to the xml file named "game" in SharedPreferences that I created in "MainActivity".
         edit = sp.edit();
         edit.putInt("timesPlayedHeavens", sp.getInt("timesPlayedHeavens", 0) + 1);
         edit.apply();
@@ -107,7 +107,45 @@ public class HeavensGameView extends SurfaceView implements Runnable {
 
         updateBackground();
         updateFlight();
+        updateBirdsAndBullets();
 
+    }
+
+    public void updateBackground() {
+
+        int step = (int) (15 * screenRatioX);
+        this.background1.x -= step;   // to move the image to the left some (the basic is 9, in my phone) pixels
+        this.background2.x -= step;
+
+        if (this.background1.x + this.background1.background.getWidth() < 0)  // if the size of the picture would be called "x" (this.background1.background.getWidth()) so if the left side -> x coordinate would be "-x" the picture would be exactly out of the screen, when it's below "-x" the picture would be brought to the right side of the screen -> out of the screen
+            this.background1.x = this.background2.x + this.background2.background.getWidth() - 4;
+        // to bring the image to the right side of the screen -> outside of the screen
+        if (this.background2.x + this.background2.background.getWidth() < 0)
+            this.background2.x = this.background1.x + this.background1.background.getWidth() - 4;
+
+    }
+
+    public void updateFlight() {
+
+        if (sp.getBoolean("oneHandGameMode", false)) {
+            this.flight.isGoingUp = HeavensGameActivity.deltaz > 7;
+
+        }
+
+        if (this.flight.isGoingUp)
+            this.flight.y -= (int) (20 * screenRatioY);  // to make the airplane go up
+        else
+            this.flight.y += (int) (20 * screenRatioY);  // to make the airplane go down
+
+        if (this.flight.y < 0)
+            this.flight.y = 0;  // to stop the airplane from getting out of the screen
+
+        if (this.flight.y >= this.screenY - this.flight.height)
+            this.flight.y = this.screenY - this.flight.height;  // to stop the airplane from getting out of the screen
+
+    }
+
+    public void updateBirdsAndBullets() {
         List<Bullet> trash = new ArrayList<>();
 
         for (Bullet bullet : bullets) {   // I'm using list because there could be many bullets on the screen at once
@@ -162,51 +200,11 @@ public class HeavensGameView extends SurfaceView implements Runnable {
                 edit.apply();
 
                 return;
-
             }
         }
 
-
-
     }
 
-    public void updateBackground() {
-
-        int step = (int) (15 * screenRatioX);
-        this.background1.x -= step;   // to move the image to the left some (the basic is 9, in my phone) pixels
-        this.background2.x -= step;
-
-        if (this.background1.x + this.background1.background.getWidth() < 0)  // if the size of the picture would be called "x" (this.background1.background.getWidth()) so if the left side -> x coordinate would be "-x" the picture would be exactly out of the screen, when it's below "-x" the picture would be brought to the right side of the screen -> out of the screen
-            this.background1.x = this.background2.x + this.background2.background.getWidth() - 4;
-        // to bring the image to the right side of the screen -> outside of the screen
-        if (this.background2.x + this.background2.background.getWidth() < 0)
-            this.background2.x = this.background1.x + this.background1.background.getWidth() - 4;
-
-
-    }
-
-    public void updateFlight() {
-
-        if(sp.getBoolean("oneHandGameMode", false)) {
-            if (HeavensGameActivity.deltaz > 7)
-                this.flight.isGoingUp = true;
-            else
-                this.flight.isGoingUp = false;
-        }
-
-
-        if (this.flight.isGoingUp)
-            this.flight.y -= (int) (20 * screenRatioY);  // to make the airplane go up
-        else
-            this.flight.y += (int) (20 * screenRatioY);  // to make the airplane go down
-
-        if (this.flight.y < 0)
-            this.flight.y = 0;  // to stop the airplane from getting out of the screen
-
-        if (this.flight.y >= this.screenY - this.flight.height)
-            this.flight.y = this.screenY - this.flight.height;  // to stop the airplane from getting out of the screen
-
-    }
 
     public void draw() {
         if (getHolder().getSurface().isValid()) {   // to make sure that the surface is available for use
@@ -278,15 +276,15 @@ public class HeavensGameView extends SurfaceView implements Runnable {
         switch (event.getAction()) {  // to check what happened, in this case to check whether the user is clicking on the screen (MotionEvent.ACTION_DOWN) or he released his finger from the screen (MotionEvent.ACTION_UP) so i will be able to act accordingly
 
             case MotionEvent.ACTION_DOWN:  // ACTION_DOWN is since the user touched the screen until he release his finger from the screen
-                if(!sp.getBoolean("oneHandGameMode", false)) {
-                    if (event.getX() < screenX / 2)  // if the user touches the left side of the screen the airplane would go up
+                if (!sp.getBoolean("oneHandGameMode", false)) {
+                    if (event.getX() < screenX / 2f)  // if the user touches the left side of the screen the airplane would go up
                         this.flight.isGoingUp = true;  // used in "update()"
                 }
                 break;
 
             case MotionEvent.ACTION_UP:
                 this.flight.isGoingUp = false;  // used in "update()"
-                if (event.getX() > screenX / 2) {  // if the user touches the right side of the screen the airplane would shoot
+                if (event.getX() > screenX / 2f) {  // if the user touches the right side of the screen the airplane would shoot
                     this.flight.toShoot++;  // "toShoot" used to check whether "getFlight" from "Flight" should return an image from one block of code or from the other
                     //  if i will call "newBullet()" here then the bullet would show up together with the first image of the airplane shooting and if it is there it would show up on the screen only after the 5 images of the airplane shooting would be presented on the screen already
                 }
