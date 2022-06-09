@@ -23,6 +23,19 @@ public class Robot {
     Robot(GroundGameView ggv, Resources res) {
         this.ggv = ggv;
 
+        decodeImages(res);
+
+        setWidthAndHeight();
+
+        createScaledBitmaps();
+
+        x = (int) (64 * GroundGameView.screenRatioX);
+        y = (int) (665 * GroundGameView.screenRatioY);
+        defaultY = y;
+
+    }
+
+    public void decodeImages(Resources res) {
 
         run[1] = BitmapFactory.decodeResource(res, R.drawable.robot_run_1);
         run[2] = BitmapFactory.decodeResource(res, R.drawable.robot_run_2);
@@ -47,8 +60,10 @@ public class Robot {
         jump[10] = BitmapFactory.decodeResource(res, R.drawable.robot_jump_10);
 
         dead = BitmapFactory.decodeResource(res, R.drawable.robot_dead_10);
+    }
 
-        setWidthAndHeight();
+
+    public void createScaledBitmaps() {
 
         for (int i = 1; i < 10; i++) {
             run[i] = Bitmap.createScaledBitmap(run[i], widthRun, heightRun, false);
@@ -57,9 +72,8 @@ public class Robot {
 
         jump[10] = Bitmap.createScaledBitmap(jump[10], widthJump, heightJump, false);
         dead = Bitmap.createScaledBitmap(dead, widthDead, heightDead, false);
-
-
     }
+
 
     public void setWidthAndHeight() {
 
@@ -90,9 +104,7 @@ public class Robot {
         averageWidth = (widthRun + widthDead + widthJump) / 3;
         averageHeight = (heightRun + heightDead + heightJump) / 3;
 
-        x = (int) (64 * GroundGameView.screenRatioX);
-        y = (int) (665 * GroundGameView.screenRatioY);
-        defaultY = y;
+
 
     }
 
