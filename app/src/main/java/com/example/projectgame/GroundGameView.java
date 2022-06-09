@@ -86,8 +86,6 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
         while (isPlaying) {
             update();
-
-
             draw();
             sleep();
         }
@@ -98,6 +96,37 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
         updateBackground();
 
+        updateRobot();
+
+        updateDinoAndBullets();
+
+        updateSpikes();
+
+        collisionCheck();
+
+
+        if (increaseSpeed < 1000)
+            increaseSpeed += 0.01;
+        else
+            increaseSpeed = 1000;
+
+    }
+
+    public void updateBackground() {
+
+        int step = (int) (22 * screenRatioX) + (int) increaseSpeed;
+        background1.x -= step;
+        background2.x -= step;
+
+        if (background1.x + background1.background.getWidth() < 0)
+            background1.x = background2.x + background2.background.getWidth() - 4;
+
+        if (background2.x + background2.background.getWidth() < 0)
+            background2.x = background1.x + background1.background.getWidth() - 4;
+
+    }
+
+    public void updateRobot(){
 
         if (robot.toJump && robot.y > 280)
             robot.y -= (int) (25 * screenRatioY);
@@ -107,8 +136,9 @@ public class GroundGameView extends SurfaceView implements Runnable {
         }
         if (robot.y > robot.defaultY)
             robot.y = robot.defaultY;
+    }
 
-
+    public void updateDinoAndBullets(){
         List<Bullet> trash = new ArrayList<>();
 
 
@@ -149,7 +179,9 @@ public class GroundGameView extends SurfaceView implements Runnable {
             dino.y = (int) ((665 * screenRatioY) - (90 * screenRatioY));
             dino.wasShot = false;
         }
+    }
 
+    public void updateSpikes(){
 
         spikes.x -= spikes.speed;
         if (spikes.x + spikes.width < 0) {
@@ -159,7 +191,11 @@ public class GroundGameView extends SurfaceView implements Runnable {
             spikes.speed = (int) (22 * screenRatioX) + (int) increaseSpeed;
 
         }
+    }
 
+
+
+    public void collisionCheck(){
 
         if (Rect.intersects(dino.getCollisionShape(), robot.getCollisionShape())) {
             isGameOver = true;
@@ -177,28 +213,8 @@ public class GroundGameView extends SurfaceView implements Runnable {
             edit.apply();
             return;
         }
-
-        if (increaseSpeed < 1000)
-            increaseSpeed += 0.01;
-        else
-            increaseSpeed = 1000;
-
-
     }
 
-    public void updateBackground() {
-
-        int step = (int) (22 * screenRatioX) + (int) increaseSpeed;
-        background1.x -= step;
-        background2.x -= step;
-
-        if (background1.x + background1.background.getWidth() < 0)
-            background1.x = background2.x + background2.background.getWidth() - 4;
-
-        if (background2.x + background2.background.getWidth() < 0)
-            background2.x = background1.x + background1.background.getWidth() - 4;
-
-    }
 
 
     public void draw() {
@@ -215,13 +231,14 @@ public class GroundGameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(spikes.getSpikes(), spikes.x, spikes.y, paint);
 
             if (isGameOver) {
+
+                isPlaying = false;
+
                 mp.stop();
 
                 robot.toDie = true;
 
                 canvas.drawBitmap(robot.getRobot(), robot.x, robot.y, paint);
-
-                isPlaying = false;
 
                 saveIfHighScore();
 

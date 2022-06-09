@@ -103,7 +103,7 @@ public class HeavensGameView extends SurfaceView implements Runnable {
         }
     }
 
-    public void update() {
+    public void update() {  // In here I'm updating the data of the images that I will draw in the 'draw' method.
 
         updateBackground();
         updateFlight();
@@ -111,7 +111,7 @@ public class HeavensGameView extends SurfaceView implements Runnable {
 
     }
 
-    public void updateBackground() {
+    public void updateBackground() {  // In here I'm updating the data of the background images to draw afterwards in the 'draw' method.
 
         int step = (int) (15 * screenRatioX);
         this.background1.x -= step;   // to move the image to the left some (the basic is 9, in my phone) pixels
@@ -125,7 +125,7 @@ public class HeavensGameView extends SurfaceView implements Runnable {
 
     }
 
-    public void updateFlight() {
+    public void updateFlight() {  // In here I'm updating the data of the airplane image to draw afterwards in the 'draw' method.
 
         if (sp.getBoolean("oneHandGameMode", false)) {
             this.flight.isGoingUp = HeavensGameActivity.deltaz > 7;
@@ -145,7 +145,7 @@ public class HeavensGameView extends SurfaceView implements Runnable {
 
     }
 
-    public void updateBirdsAndBullets() {
+    public void updateBirdsAndBullets() {  // In here I'm updating the data of the birds and bullets images to draw afterwards in the 'draw' method.
         List<Bullet> trash = new ArrayList<>();
 
         for (Bullet bullet : bullets) {   // I'm using list because there could be many bullets on the screen at once
@@ -169,16 +169,16 @@ public class HeavensGameView extends SurfaceView implements Runnable {
             }
         }
 
-        for (Bullet bullet : trash) {  // deleting the bullets that came out of the screen
+        for (Bullet bullet : trash) {  // Deleting the bullets that came out of the screen.
             bullets.remove(bullet);
         }
 
         for (Bird bird : birds) {
-            bird.x -= bird.speed;  //  so the bird will go towards the airplane -> to the left in a random speed
+            bird.x -= bird.speed;  //  So the bird will go towards the airplane -> to the left in a random speed.
 
-            if ((bird.x + bird.width) < 0) {  // if this statement is true -> the bird got out of the screen from the left side
+            if ((bird.x + bird.width) < 0) {  // If this statement is true -> the bird got out of the screen from the left side.
 
-                if (!(bird.wasShot)) {  // if the bird got out of the screen without getting shoot at so the player had failed and the game will be over
+                if (!(bird.wasShot)) {  // If the bird got out of the screen without getting shoot at so the player had failed and the game will be over
                     isGameOver = true;
                     edit.putInt("birdPassFails", sp.getInt("birdPassFails", 0) + 1);
                     edit.apply();
@@ -188,8 +188,8 @@ public class HeavensGameView extends SurfaceView implements Runnable {
 
                 bird.speed = (int) (Math.random() * (20 * screenRatioX) + 10 * screenRatioX);
 
-                bird.x = screenX;  // so the bird will be on the right side of the screen
-                bird.y = random.nextInt(screenY - bird.height);  // so the maximum height will be (screenY - bird.height)
+                bird.x = screenX;  // So the bird will be on the right side of the screen.
+                bird.y = random.nextInt(screenY - bird.height);  // So the maximum height will be (screenY - bird.height).
 
                 bird.wasShot = false;
             }
@@ -206,7 +206,7 @@ public class HeavensGameView extends SurfaceView implements Runnable {
     }
 
 
-    public void draw() {
+    public void draw() {  // In here I'm drawing on the canvas of the surface view that this class extends the birds, bullets, background and airplane.
         if (getHolder().getSurface().isValid()) {   // to make sure that the surface is available for use
             Canvas canvas = getHolder().lockCanvas();   // returns the current canvas that is being displayed on the screen to work with
 
@@ -294,7 +294,7 @@ public class HeavensGameView extends SurfaceView implements Runnable {
         return true;
     }
 
-    public void newBullet() {  // gets called in "getFlight()" in "Flight" class.
+    public void newBullet() {  // gets called in "getFlight()" in "Flight" class to create a new bullet object to draw on the screen.
 
         if (!sp.getBoolean("isMute", false))  // If the player chose to not mute the game then I will play the bullet sound.
             mp.start();  // To make the sound of the shooting.

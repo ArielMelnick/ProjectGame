@@ -15,7 +15,8 @@ public class Robot {
     boolean toShoot = false;
     private GroundGameView ggv;
 
-    int runCounter = 0, deadCounter = 0, jumpCounter = 0;
+    int runCounter = 0;
+    int jumpCounter = 0;
     Boolean toJump = false, toDie = false;
 
 
