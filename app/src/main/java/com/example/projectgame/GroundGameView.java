@@ -43,7 +43,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
     /**
      * To create a game
      */
-    public GroundGameView(GroundGameActivity activity, int screenX, int screenY) {
+    public GroundGameView(GroundGameActivity activity, int screenX, int screenY) {  // initiating and setting objects and variables to use later in the other methods.
         super(activity);
 
         this.activity = activity;
@@ -82,7 +82,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void run() {  // Basically from here it all operates - updating the game, drawing according to those updates and waiting a little bit - all in a while loop that stays active as long as the player didn't lose or quite the game .
 
         while (isPlaying) {
             update();
@@ -92,7 +92,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
     }
 
-    public void update() {
+    public void update() {  // updating the display according to the player's actions.
 
         updateBackground();
 
@@ -112,7 +112,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
     }
 
-    public void updateBackground() {
+    public void updateBackground() {  // updating the background of the game - moving it towards the left side of the screen.
 
         int step = (int) (22 * screenRatioX) + (int) increaseSpeed;
         background1.x -= step;
@@ -126,7 +126,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
     }
 
-    public void updateRobot(){
+    public void updateRobot() {  // updating the robot image data - the jumping process.
 
         if (robot.toJump && robot.y > 280)
             robot.y -= (int) (25 * screenRatioY);
@@ -138,7 +138,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
             robot.y = robot.defaultY;
     }
 
-    public void updateDinoAndBullets(){
+    public void updateDinoAndBullets() {  // updating the dino image - moving it towards the robot, and the bullets images - moving them towards the dinos. and checking collision between them.
         List<Bullet> trash = new ArrayList<>();
 
 
@@ -181,7 +181,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
         }
     }
 
-    public void updateSpikes(){
+    public void updateSpikes() {  // updating the spikes image - moving it towards the robot (to the left).
 
         spikes.x -= spikes.speed;
         if (spikes.x + spikes.width < 0) {
@@ -194,8 +194,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
     }
 
 
-
-    public void collisionCheck(){
+    public void collisionCheck() {  // Checking if there was a collision between the robot and the and between the robot and the spikes.
 
         if (Rect.intersects(dino.getCollisionShape(), robot.getCollisionShape())) {
             isGameOver = true;
@@ -216,8 +215,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
     }
 
 
-
-    public void draw() {
+    public void draw() {  // drawing the changes on the screen according to the update method and checking if the player lost.
 
         if (getHolder().getSurface().isValid()) {
             Canvas canvas = getHolder().lockCanvas();
@@ -258,23 +256,18 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
             canvas.drawBitmap(robot.getRobot(), robot.x, robot.y, paint);
 
-            //try {
             for (Bullet bullet : bullets) {
                 canvas.drawBitmap(bullet.bullet, bullet.x, bullet.y, paint);
             }
-            //}catch (ConcurrentModificationException c){
-            //bullets.iterator().next();
-            //}
 
             getHolder().unlockCanvasAndPost(canvas);
 
         }
 
-
     }
 
 
-    public void sleep() {
+    public void sleep() {  // sleeping between each iteration of the while loop in run to make the game playable and somewhat "fun".
 
         try {
             Thread.sleep(17);
@@ -283,14 +276,14 @@ public class GroundGameView extends SurfaceView implements Runnable {
         }
     }
 
-    public void resume() {
+    public void resume() {  // starting the thread (the "run()" method).
         isPlaying = true;
         thread = new Thread(this);
         thread.start();
 
     }
 
-    public void pause() {
+    public void pause() {  // stopping the run method and the thread.
         isPlaying = false;
         try {
             thread.join();
@@ -300,7 +293,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
 
     }
 
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {  // listening to the player's touches on the screen and acting accordingly.
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
             if (event.getX() < screenX / 2f) {
@@ -313,7 +306,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
         return true;
     }
 
-    public void newBullet() {
+    public void newBullet() {  // creating a new bullet and putting it into the bullet list and making the shooting sound.
 
         if (!sp.getBoolean("isMute", false))  // If the player chose to not mute the game then I will play the bullet sound.
             mp.start();  // To make the sound of the shooting.
@@ -326,7 +319,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
     }
 
 
-    public void waitBeforeExiting() {
+    public void waitBeforeExiting() {  // waiting a little bit before returning to the main screen - to let the player see the robot dead and the "Game Over" text.
 
         try {
             activity.finish();
@@ -337,7 +330,7 @@ public class GroundGameView extends SurfaceView implements Runnable {
         }
     }
 
-    public void saveIfHighScore() {
+    public void saveIfHighScore() {  // to save the player's score in the memory if it was higher than the last high score stored in the memory.
 
         if (sp.getInt("GroundHighScore", 0) < score) {
 
