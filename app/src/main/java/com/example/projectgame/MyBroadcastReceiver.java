@@ -28,7 +28,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "myChannel")
                 .setSmallIcon(android.R.drawable.star_on)
                 .setContentTitle("Ground and Heavens")
-                .setContentText("Enter to the game!")
+                .setContentText("Enter to the game! I miss you.")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
                 .setOnlyAlertOnce(true);

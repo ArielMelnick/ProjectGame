@@ -39,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvGroundHighScore;
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
-    //public static boolean isOn;
-    //private MyBroadcastReceiver mbr;
 
 
     @Override
@@ -61,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void setVolume() {
+    public void setVolume() {  // setting the audio in the game(the gun shots)
         isMute = sp.getBoolean("isMute", false);
 
         volume = findViewById(R.id.volume);
@@ -92,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void init() {
+    public void init() {  // initiating some variable and a SharedPreferences object
 
         tvHeavensHighScore = findViewById(R.id.tvHeavensHighScore);
         tvGroundHighScore = findViewById(R.id.tvGroundHighScore);
@@ -100,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         sp = getSharedPreferences("game", MODE_PRIVATE);
     }
 
-    public void setPlayButtons() {
+    public void setPlayButtons() {  // setting the two play buttons and listening to them (to clicks on them)
 
 
         findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
@@ -121,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void setNotificationAlarm() {
+    public void setNotificationAlarm() {  // settings an AlarmManager,Intent and PendingIntent to activate a broadcast to activate a notification
 
         Intent intent = new Intent(this, MyBroadcastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
@@ -130,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1000 * 60 * 60 * 24), pendingIntent);
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) {  // creating the menu - inflating to it the layout I made
 
         getMenuInflater().inflate(R.menu.menu, menu);
         menu.findItem(R.id.gameMode).setChecked(sp.getBoolean("oneHandGameMode", false));
@@ -138,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {  // reacting to selected item from the menu
         int id = item.getItemId();
 
         if (id == R.id.Contact) {
@@ -167,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void createInstructionsDialog() {
+    public void createInstructionsDialog() {  // creating the instructions dialog
 
         Dialog instructionsDialog = new Dialog(this);
 
@@ -178,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void createStatisticsDialog() {
+    public void createStatisticsDialog() {  // creating the statistics dialog
         TextView timesPlayedGround, dinosKilled, deathsByDino, deathsBySpikes, timesPlayedHeavens, birdsKilled, birdPassFails, birdCrashes;
         Dialog statisticsDialog = new Dialog(this);
         statisticsDialog.setContentView(R.layout.statistics_dialog_layout);
@@ -223,8 +221,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+
+    public void createNotificationChannel() {  // Creating NotificationChannel to use on API 26+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "myChannel";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
@@ -242,20 +239,12 @@ public class MainActivity extends AppCompatActivity {
         tvHeavensHighScore.setText("Heavens High Score: " + sp.getInt("HeavensHighScore", 0));
         tvGroundHighScore.setText("Ground High Score: " + sp.getInt("GroundHighScore", 0));
 
-        // mbr = new MyBroadcastReceiver();
-        // IntentFilter filter = new IntentFilter();
-        //filter.addAction(Intent.ACTION_POWER_CONNECTED);
-        //filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
-        //filter.addAction(Intent.ACTION_BATTERY_CHANGED);
-        // registerReceiver(mbr, filter);
-
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        //isOn = true;
+
 
 
     }
@@ -263,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        //isOn = false;
+
 
     }
 }
