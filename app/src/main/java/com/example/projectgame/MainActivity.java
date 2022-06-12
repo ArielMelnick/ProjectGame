@@ -1,35 +1,24 @@
 package com.example.projectgame;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.service.notification.NotificationListenerService;
-import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Calendar;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -158,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("oneHandGameMode", item.isChecked());
             editor.apply();
 
-
         }
 
         return true;
@@ -241,18 +229,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-
-    }
 }

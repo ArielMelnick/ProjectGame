@@ -24,7 +24,7 @@ public class HeavensGameView extends SurfaceView implements Runnable {
     private int score;
     private Paint paint;
     private Flight flight;
-    public static float screenRatioX, screenRatioY;  // they are public and static so i will be able to use them in different classes
+    public static float screenRatioX, screenRatioY;  // they are public and static so i will be able to use them in different classes.
     private List<Bullet> bullets;
     private Bird[] birds;
     private Random random;

@@ -11,7 +11,7 @@ public class Bullet {
     int width, height;
 
 
-    Bullet(Resources res) {
+    Bullet(Resources res) {  // the constructor method of this claas, used to initiate and set the variables and objects.
         this.bullet = BitmapFactory.decodeResource(res, R.drawable.bullet);
 
         width = bullet.getWidth();
@@ -20,12 +20,11 @@ public class Bullet {
         width = width / 4;
         height = height / 4;
 
-        if(HeavensGameView.screenRatioX >0) {
+        if (HeavensGameView.screenRatioX > 0) {
 
             width *= HeavensGameView.screenRatioX;
             height *= HeavensGameView.screenRatioY;
-        }
-        else {
+        } else {
             width *= GroundGameView.screenRatioX;
             height *= GroundGameView.screenRatioY;
         }

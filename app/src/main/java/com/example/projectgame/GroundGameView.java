@@ -4,19 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorSpace;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
-import androidx.annotation.RequiresApi;
-import androidx.vectordrawable.graphics.drawable.ArgbEvaluator;
-
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.List;
 
 

@@ -1,8 +1,6 @@
 package com.example.projectgame;
 
 
-
-
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,7 +14,7 @@ public class Flight {
     Bitmap flight1, flight2, shoot1, shoot2, shoot3, shoot4, shoot5, dead;
     private final HeavensGameView heavensGameView;
 
-    Flight(HeavensGameView heavensGameView, Resources res) {  // it will get the data of the image of the airplane from the resources (res).
+    Flight(HeavensGameView heavensGameView, Resources res) {  // the constructor method of this claas, used to initiate and set variables and objects (it will get the data of the image of the airplane from the resources (res)).
         this.heavensGameView = heavensGameView;
 
         this.flight1 = BitmapFactory.decodeResource(res, R.drawable.fly1);

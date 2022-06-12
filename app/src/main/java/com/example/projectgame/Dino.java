@@ -100,5 +100,4 @@ public class Dino {
         return new Rect((int) (x + 400 * GroundGameView.screenRatioX), (int) (y + 60 * GroundGameView.screenRatioX), x + width, y + height);
     }
 
-
 }

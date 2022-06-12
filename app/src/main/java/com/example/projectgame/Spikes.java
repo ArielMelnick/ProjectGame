@@ -12,7 +12,6 @@ public class Spikes {
     int x, y;
     int speed = 20;
 
-
     Spikes(Resources res) {
 
         spikes = BitmapFactory.decodeResource(res, R.drawable.spikes);
@@ -31,7 +30,6 @@ public class Spikes {
         y = -height;
 
         spikes = Bitmap.createScaledBitmap(spikes, width, height, false);
-
 
     }
 

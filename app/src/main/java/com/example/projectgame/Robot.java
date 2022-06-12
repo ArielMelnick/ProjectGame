@@ -105,7 +105,6 @@ public class Robot {
         averageHeight = (heightRun + heightDead + heightJump) / 3;
 
 
-
     }
 
     public Bitmap getRobot() {

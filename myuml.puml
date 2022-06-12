@@ -1,0 +1,195 @@
+@startuml
+class com.example.projectgame.MyBroadcastReceiver {
++ void onReceive(Context,Intent)
+}
+class com.example.projectgame.Background {
+~ float x
+~ Bitmap background
++ <<Create>> Background(int,int,Resources)
+}
+class com.example.projectgame.Bird {
+~ int x
+~ Bitmap bird1
+~ boolean wasShot
+~ <<Create>> Bird(Resources)
++ Bitmap getBird()
++ Rect getCollisionShape()
+}
+class com.example.projectgame.Dino {
+~ int x
+~ int width
+- int counter
+~ int speed
+~ Bitmap dino1
+~ boolean wasShot
+~ <<Create>> Dino(Resources)
++ void decodeImages(Resources)
++ void setWidthAndHeight()
++ void createScaledBitmaps()
++ Bitmap getDino()
++ Rect getCollisionShape()
+}
+class com.example.projectgame.HeavensGameActivity {
+- HeavensGameView heavensGameView
+- SensorManager senSensorManager
++ {static} float deltaz
+# void onCreate(Bundle)
+# void onPause()
+# void onResume()
++ void onSensorChanged(SensorEvent)
++ void onAccuracyChanged(Sensor,int)
+}
+class com.example.projectgame.Robot {
+~ Bitmap[] run
+~ Bitmap dead
+~ Bitmap[] jump
+~ int x
+~ int widthRun
+~ boolean toShoot
+- GroundGameView ggv
+~ int runCounter
+~ int jumpCounter
+~ Boolean toJump
+~ <<Create>> Robot(GroundGameView,Resources)
++ void decodeImages(Resources)
++ void createScaledBitmaps()
++ void setWidthAndHeight()
++ Bitmap getRobot()
++ Rect getCollisionShape()
+}
+class com.example.projectgame.Bullet {
+~ int x
+~ Bitmap bullet
+~ int width
+~ <<Create>> Bullet(Resources)
++ Rect getCollisionShape()
+}
+class com.example.projectgame.MainActivity {
+- boolean isMute
+- ImageView volume
+- TextView tvHeavensHighScore
+- TextView tvGroundHighScore
+- SharedPreferences sp
+- SharedPreferences.Editor editor
+# void onCreate(Bundle)
++ void setVolume()
++ void init()
++ void setPlayButtons()
++ void setNotificationAlarm()
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(MenuItem)
++ void createInstructionsDialog()
++ void createStatisticsDialog()
++ void createNotificationChannel()
+# void onResume()
+}
+class com.example.projectgame.HeavensGameView {
+- Thread thread
+- boolean isPlaying
+- Background background1
+- Background background2
+- int screenX
+- int score
+- Paint paint
+- Flight flight
++ {static} float screenRatioX
+- List<Bullet> bullets
+- Bird[] birds
+- Random random
+- SharedPreferences sp
+- HeavensGameActivity activity
+- MediaPlayer mp
+- SharedPreferences.Editor edit
++ <<Create>> HeavensGameView(HeavensGameActivity,int,int)
++ void run()
++ void resume()
++ void pause()
++ void update()
++ void updateBackground()
++ void updateFlight()
++ void updateBirdsAndBullets()
++ void draw()
++ void waitBeforeExiting()
++ void sleep()
++ boolean onTouchEvent(MotionEvent)
++ void newBullet()
++ void saveIfHighScore()
+}
+class com.example.projectgame.GroundBackground {
+~ float x
+~ Bitmap background
++ <<Create>> GroundBackground(int,int,Resources)
+}
+class com.example.projectgame.GroundGameActivity {
+- GroundGameView groundGameView
+# void onCreate(Bundle)
+# void onPause()
+# void onResume()
+}
+class com.example.projectgame.Flight {
+~ int toShoot
+~ boolean isGoingUp
+~ int x
+~ int width
+~ Bitmap flight1
+- HeavensGameView heavensGameView
+~ <<Create>> Flight(HeavensGameView,Resources)
++ Bitmap getFlight()
++ Rect getCollisionShape()
+}
+class com.example.projectgame.GroundGameView {
+- boolean isPlaying
+- Thread thread
+- int screenX
++ {static} float screenRatioX
+- GroundBackground background1
+- GroundBackground background2
+- Paint paint
+- Robot robot
+- List<Bullet> bullets
+- Spikes spikes
+- GroundGameActivity activity
+- Dino dino
+- int score
+- SharedPreferences sp
+- MediaPlayer mp
+- double increaseSpeed
+- SharedPreferences.Editor edit
++ <<Create>> GroundGameView(GroundGameActivity,int,int)
++ void run()
++ void update()
++ void updateBackground()
++ void updateRobot()
++ void updateDinoAndBullets()
++ void updateSpikes()
++ void collisionCheck()
++ void draw()
++ void sleep()
++ void resume()
++ void pause()
++ boolean onTouchEvent(MotionEvent)
++ void newBullet()
++ void waitBeforeExiting()
++ void saveIfHighScore()
+}
+class com.example.projectgame.Spikes {
+- Bitmap spikes
+~ int width
+~ int x
+~ int speed
+~ <<Create>> Spikes(Resources)
++ Bitmap getSpikes()
++ Rect getCollisionShape()
+}
+
+
+android.content.BroadcastReceiver <|-- com.example.projectgame.MyBroadcastReceiver
+android.hardware.SensorEventListener <|.. com.example.projectgame.HeavensGameActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.projectgame.HeavensGameActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.projectgame.MainActivity
+com.example.projectgame.Runnable <|.. com.example.projectgame.HeavensGameView
+android.view.SurfaceView <|-- com.example.projectgame.HeavensGameView
+androidx.appcompat.app.AppCompatActivity <|-- com.example.projectgame.GroundGameActivity
+com.example.projectgame.Runnable <|.. com.example.projectgame.GroundGameView
+android.view.SurfaceView <|-- com.example.projectgame.GroundGameView
+@enduml
